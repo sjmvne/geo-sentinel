@@ -2,635 +2,1114 @@
 <html lang="it" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geo-Sentinel | Operational Command Center 2026</title>
-    <!-- Tailwind CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GEO-SENTINEL | Master Command Center 2026</title>
+    
+    <!-- Premium Meta Tags -->
+    <meta name="description" content="Operational Command Center for the Geo-Sentinel AI Micro-SaaS Ecosystem. 100% Automated, High Margin, B2B Local Dominance.">
+    <meta name="theme-color" content="#020617">
+    
+    <!-- Dependencies -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- GSAP Animation Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <!-- Google Fonts: Outfit for titles, Inter for body -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: { 
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Outfit', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
                     },
                     colors: {
                         primary: '#6366F1',
                         accent: '#10B981',
+                        warning: '#F59E0B',
                         danger: '#EF4444',
                         dark: '#020617',
-                        card: 'rgba(15, 23, 42, 0.6)',
+                        surface: '#0F172A',
+                        vox: '#818CF8',
+                        rank: '#34D399',
+                        flow: '#FBBF24',
                     }
                 }
             }
         }
     </script>
+
     <style>
-        body { 
-            background-color: #020617; 
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+        :root {
+            --glass: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glow-primary: rgba(99, 102, 241, 0.2);
+        }
+
+        * { -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: #020617;
             color: #F8FAFC;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, var(--glow-primary) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
         }
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.7);
+
+        .glass {
+            background: var(--glass);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
         }
-        .nav-btn.active {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.4);
-            color: #818CF8;
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.6));
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .step-completed { opacity: 0.4; filter: grayscale(1); }
-        .tab-content { transition: all 0.3s ease; }
-        .isometric-tilt { transform: perspective(1000px) rotateX(2deg) rotateY(-1deg); }
-        
-        /* Custom Progress Bar */
-        #main-progress { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
-        
-        /* Tooltip style */
-        .tech-tag {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 2px 6px;
-            border-radius: 4px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+
+        .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+        }
+
+        .tab-content { display: none; opacity: 0; transform: translateY(10px); }
+        .tab-content.active { display: block; }
+
+        .nav-link.active {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            box-shadow: 0 0 10px currentColor;
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: #020617; }
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .animate-pulse-soft { animation: pulse-soft 2s infinite ease-in-out; }
+
+        /* Mobile Bottom Nav Fix */
+        @media (max-width: 1024px) {
+            .mobile-nav {
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+        }
+
+        /* Isometric Grid background */
+        .grid-bg {
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            perspective: 1000px;
+        }
+
+        .product-gradient-vox { background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%); }
+        .product-gradient-rank { background: linear-gradient(135deg, #059669 0%, #34D399 100%); }
+        .product-gradient-flow { background: linear-gradient(135deg, #D97706 0%, #FBBF24 100%); }
     </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col overflow-x-hidden">
+<body class="antialiased selection:bg-primary/30">
 
-    <!-- Global Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-panel border-b border-white/5">
-        <div class="max-w-screen-2xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="bg-primary/20 p-2 rounded-xl border border-primary/30">
-                    <i data-lucide="shield-check" class="text-primary w-6 h-6"></i>
+    <!-- TOP HEADER -->
+    <header class="fixed top-0 left-0 w-full z-[100] glass border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8 h-16 lg:h-20 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-xl bg-gradient-to-br from-primary to-accent p-0.5 shadow-lg shadow-primary/20">
+                    <div class="w-full h-full bg-dark rounded-[10px] flex items-center justify-center">
+                        <i data-lucide="shield-check" class="text-white w-6 h-6"></i>
+                    </div>
                 </div>
                 <div class="flex flex-col">
-                    <span class="font-display font-bold text-lg tracking-tight">GEO-SENTINEL</span>
-                    <span class="text-[10px] text-slate-500 font-medium tracking-[0.2em] uppercase">Operational Hub</span>
+                    <h1 class="font-display font-bold text-lg lg:text-xl tracking-tight leading-none text-white">GEO-SENTINEL</h1>
+                    <div class="flex items-center gap-2 mt-1">
+                        <span class="status-dot text-accent bg-accent"></span>
+                        <span class="text-[10px] lg:text-xs font-bold text-slate-500 uppercase tracking-widest">System Operational</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Desktop Tabs -->
-            <div class="hidden lg:flex items-center gap-1">
-                <button onclick="switchTab('idea')" class="nav-btn active px-4 py-2 text-xs font-semibold rounded-lg transition-all">CONCEPT</button>
-                <button onclick="switchTab('roadmap')" class="nav-btn px-4 py-2 text-xs font-semibold rounded-lg transition-all">ROADMAP</button>
-                <button onclick="switchTab('economics')" class="nav-btn px-4 py-2 text-xs font-semibold rounded-lg transition-all">ECONOMICS</button>
-                <button onclick="window.location.href='masterplan.html'" class="px-4 py-2 text-xs font-bold rounded-lg border border-gold/30 text-gold bg-gold/5 hover:bg-gold/10 ml-2">MASTERPLAN 2026</button>
-                <button onclick="switchTab('vault')" class="nav-btn px-4 py-2 text-xs font-semibold rounded-lg transition-all text-danger">RED PILL</button>
-                <button onclick="switchTab('fiscal')" class="nav-btn px-4 py-2 text-xs font-semibold rounded-lg transition-all">FISCAL</button>
-                <button onclick="switchTab('opinion')" class="nav-btn px-4 py-2 text-xs font-bold rounded-lg border border-primary/20 text-primary bg-primary/5 hover:bg-primary/10 ml-4">MY INSIGHTS</button>
+            <div class="hidden lg:flex items-center gap-6">
+                <div class="px-4 py-2 rounded-full bg-white/5 border border-white/10 flex items-center gap-3">
+                    <span class="text-[10px] font-black text-slate-500 uppercase tracking-tighter">Global MRR</span>
+                    <span class="font-display font-bold text-primary">$ 0.00</span>
+                </div>
+                <button onclick="switchTab('vault')" class="px-5 py-2 rounded-xl bg-danger/10 border border-danger/20 text-danger text-xs font-bold hover:bg-danger/20 transition-all">
+                    RED PILL PROTOCOL
+                </button>
             </div>
 
-            <!-- Global Progress Tracker -->
-            <div class="flex items-center gap-4">
-                <div class="hidden sm:flex flex-col items-end">
-                    <span class="text-[10px] text-slate-500 uppercase font-bold text-right">Execution</span>
-                    <span id="global-perc" class="text-sm font-display font-bold text-primary">0%</span>
-                </div>
-                <div class="w-12 h-12 rounded-full border-2 border-white/5 flex items-center justify-center relative">
-                    <i data-lucide="activity" class="w-5 h-5 text-slate-400"></i>
-                    <svg class="absolute inset-0 -rotate-90" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="4" class="text-primary/10"></circle>
-                        <circle id="progress-circle" cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="4" stroke-dasharray="301.59" stroke-dashoffset="301.59" class="text-primary transition-all duration-1000"></circle>
-                    </svg>
-                </div>
+            <!-- Mobile MRR/Status -->
+            <div class="lg:hidden flex flex-col items-end">
+                <span class="text-[10px] font-black text-slate-500 uppercase">Live Pulse</span>
+                <span class="text-sm font-display font-bold text-primary">SCANNING...</span>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow pt-24 pb-20 px-6">
-        <div class="max-w-screen-2xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <!-- Sidebar Info (Static) -->
-            <div class="lg:col-span-3 space-y-6">
-                <div class="glass-panel p-6 rounded-3xl space-y-4">
-                    <h4 class="font-display font-bold text-sm text-slate-400 uppercase tracking-widest">Target Objective</h4>
-                    <div class="space-y-1">
-                        <div class="text-3xl font-display font-black text-white">$1,000</div>
-                        <div class="text-xs text-slate-500">Monthly Recurring Revenue (MRR)</div>
-                    </div>
-                    <div class="pt-4 border-t border-white/5 space-y-3">
-                        <div class="flex justify-between text-xs">
-                            <span class="text-slate-400">Clients Needed:</span>
-                            <span class="font-bold text-white">10 - 20</span>
-                        </div>
-                        <div class="flex justify-between text-xs">
-                            <span class="text-slate-400">Avg. Ticket:</span>
-                            <span class="font-bold text-accent">$49 - $99</span>
-                        </div>
-                        <div class="flex justify-between text-xs">
-                            <span class="text-slate-400">Op. Margins:</span>
-                            <span class="font-bold text-white">> 85%</span>
-                        </div>
-                    </div>
+    <!-- MAIN WRAPPER -->
+    <div class="relative pt-20 lg:pt-32 pb-32 lg:pb-20 min-h-screen">
+        
+        <!-- SIDE NAVIGATION (DESKTOP) -->
+        <aside class="fixed left-0 top-32 bottom-0 w-20 xl:w-64 hidden lg:flex flex-col px-4 gap-4 z-40">
+            <button onclick="switchTab('overview')" class="nav-link group flex items-center gap-4 p-4 rounded-2xl border border-transparent transition-all hover:bg-white/5 active">
+                <div class="w-10 h-10 rounded-xl bg-surface flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="layout-grid" class="w-5 h-5 text-slate-400 group-hover:text-primary"></i>
                 </div>
-
-                <div class="glass-panel p-6 rounded-3xl bg-primary/5 border-primary/20">
-                    <h4 class="font-display font-bold text-sm text-primary uppercase tracking-widest mb-4">Core Tech Stack</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="tech-tag text-white">n8n</span>
-                        <span class="tech-tag text-white">GPT-4o-Mini</span>
-                        <span class="tech-tag text-white">Zernio API</span>
-                        <span class="tech-tag text-white">Stripe</span>
-                        <span class="tech-tag text-white">Local Falcon</span>
-                        <span class="tech-tag text-white">Apify</span>
-                    </div>
+                <span class="hidden xl:block font-bold text-sm text-slate-400 group-hover:text-white">Overview</span>
+            </button>
+            <button onclick="switchTab('products')" class="nav-link group flex items-center gap-4 p-4 rounded-2xl border border-transparent transition-all hover:bg-white/5">
+                <div class="w-10 h-10 rounded-xl bg-surface flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="box" class="w-5 h-5 text-slate-400 group-hover:text-accent"></i>
                 </div>
-
-                <div class="p-6 rounded-3xl bg-emerald-500/10 border border-emerald-500/20">
-                    <h4 class="text-xs font-black text-emerald-500 uppercase tracking-[0.2em] mb-2">Market Insight</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        L'ascesa dell'IA agentica sta costringendo le aziende a ripensare i propri modelli operativi. Vendere un servizio automatizzato compreso tra i 49 e i 99 dollari per singola sede aziendale garantisce un ROI visibile nei primi trenta giorni.
-                    </p>
+                <span class="hidden xl:block font-bold text-sm text-slate-400 group-hover:text-white">SaaS Products</span>
+            </button>
+            <button onclick="switchTab('stack')" class="nav-link group flex items-center gap-4 p-4 rounded-2xl border border-transparent transition-all hover:bg-white/5">
+                <div class="w-10 h-10 rounded-xl bg-surface flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="layers" class="w-5 h-5 text-slate-400 group-hover:text-vox"></i>
+                </div>
+                <span class="hidden xl:block font-bold text-sm text-slate-400 group-hover:text-white">Market Stack</span>
+            </button>
+            <button onclick="switchTab('engine')" class="nav-link group flex items-center gap-4 p-4 rounded-2xl border border-transparent transition-all hover:bg-white/5">
+                <div class="w-10 h-10 rounded-xl bg-surface flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="cpu" class="w-5 h-5 text-slate-400 group-hover:text-warning"></i>
+                </div>
+                <span class="hidden xl:block font-bold text-sm text-slate-400 group-hover:text-white">Automation Engine</span>
+            </button>
+            <button onclick="switchTab('economics')" class="nav-link group flex items-center gap-4 p-4 rounded-2xl border border-transparent transition-all hover:bg-white/5">
+                <div class="w-10 h-10 rounded-xl bg-surface flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="bar-chart-3" class="w-5 h-5 text-slate-400 group-hover:text-primary"></i>
+                </div>
+                <span class="hidden xl:block font-bold text-sm text-slate-400 group-hover:text-white">Economics</span>
+            </button>
+            <div class="mt-auto mb-8 px-4 border-t border-white/5 pt-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                        <i data-lucide="user" class="w-5 h-5 text-slate-500"></i>
+                    </div>
+                    <div class="hidden xl:block">
+                        <p class="text-xs font-bold text-white leading-none">Solopreneur</p>
+                        <p class="text-[10px] text-slate-500 mt-1 uppercase">Forfettario 2026</p>
+                    </div>
                 </div>
             </div>
+        </aside>
 
-            <!-- Dynamic Content Area -->
-            <div class="lg:col-span-9">
+        <!-- CONTENT AREA -->
+        <main class="max-w-7xl mx-auto px-4 lg:pl-28 xl:pl-72 lg:pr-8">
+            
+            <!-- OVERVIEW TAB -->
+            <section id="overview" class="tab-content active space-y-8">
+                <div class="relative overflow-hidden p-8 lg:p-12 rounded-[2rem] bg-gradient-to-br from-surface to-dark border border-white/5 shadow-2xl">
+                    <div class="absolute -right-20 -top-20 w-64 h-64 bg-primary/20 rounded-full blur-[100px]"></div>
+                    <div class="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+                        <div class="space-y-6">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                                <span class="animate-pulse-soft"><i data-lucide="sparkles" class="w-3 h-3 text-primary"></i></span>
+                                <span class="text-[10px] font-black text-primary uppercase tracking-[0.2em]">The Golden Ticket</span>
+                            </div>
+                            <h2 class="text-4xl lg:text-6xl font-display font-black text-white leading-[1.1]">
+                                L'Architettura della <br>
+                                <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Libertà Finanziaria</span>
+                            </h2>
+                            <p class="text-slate-400 text-lg leading-relaxed max-w-lg">
+                                Non stiamo costruendo un'agenzia, stiamo assemblando una **fabbrica di margini**. Tre soluzioni verticali, 100% automatizzate, progettate per il mercato B2B locale italiano.
+                            </p>
+                            <div class="flex flex-wrap gap-4 pt-4">
+                                <div class="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 flex flex-col">
+                                    <span class="text-[10px] text-slate-500 uppercase font-bold mb-1">Target Margin</span>
+                                    <span class="text-2xl font-display font-black text-accent">> 85%</span>
+                                </div>
+                                <div class="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 flex flex-col">
+                                    <span class="text-[10px] text-slate-500 uppercase font-bold mb-1">Infrastructure Cost</span>
+                                    <span class="text-2xl font-display font-black text-white">$ 182<span class="text-xs text-slate-500">/mo</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative hidden lg:block">
+                            <div class="relative group cursor-pointer">
+                                <div class="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[2rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                                <div class="relative glass rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl">
+                                    <img src="geo_sentinel_golden_ticket_1777589623903.png" alt="The Golden Ticket" class="w-full h-auto object-cover transform hover:scale-110 transition-transform duration-700">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent"></div>
+                                    <div class="absolute bottom-6 left-6 flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
+                                            <i data-lucide="award" class="w-4 h-4 text-warning"></i>
+                                        </div>
+                                        <span class="text-[10px] font-black text-white uppercase tracking-[0.2em]">Verified Asset</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="glass-card p-8 rounded-3xl space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-vox/10 border border-vox/20 flex items-center justify-center">
+                            <i data-lucide="mic" class="text-vox w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-display font-bold text-white">VoxSentinel</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">Recupero chiamate perse tramite Voice AI & SMS. Ticket medio: $149/mo. Margine: Altissimo.</p>
+                        <div class="pt-4 flex items-center justify-between">
+                            <span class="text-[10px] font-black text-slate-500 uppercase">Status</span>
+                            <span class="text-[10px] font-bold text-accent px-2 py-0.5 rounded-md bg-accent/10 border border-accent/20 uppercase tracking-widest">Blueprint Ready</span>
+                        </div>
+                    </div>
+                    <div class="glass-card p-8 rounded-3xl space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-rank/10 border border-rank/20 flex items-center justify-center">
+                            <i data-lucide="trending-up" class="text-rank w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-display font-bold text-white">OmniRank AEO</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">Answer Engine Optimization per dominare Perplexity e ChatGPT. SEO locale 2.0.</p>
+                        <div class="pt-4 flex items-center justify-between">
+                            <span class="text-[10px] font-black text-slate-500 uppercase">Status</span>
+                            <span class="text-[10px] font-bold text-accent px-2 py-0.5 rounded-md bg-accent/10 border border-accent/20 uppercase tracking-widest">Blueprint Ready</span>
+                        </div>
+                    </div>
+                    <div class="glass-card p-8 rounded-3xl space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-flow/10 border border-flow/20 flex items-center justify-center">
+                            <i data-lucide="stethoscope" class="text-flow w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-display font-bold text-white">MedFlow</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">Verticale Odontoiatria & Cliniche. Gestione triage e recall via WhatsApp Business.</p>
+                        <div class="pt-4 flex items-center justify-between">
+                            <span class="text-[10px] font-black text-slate-500 uppercase">Status</span>
+                            <span class="text-[10px] font-bold text-accent px-2 py-0.5 rounded-md bg-accent/10 border border-accent/20 uppercase tracking-widest">Blueprint Ready</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LIVE FEED SIMULATOR -->
+                <div class="glass-card p-6 rounded-3xl border border-white/5 relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <h4 class="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+                            Live Operational Feed
+                        </h4>
+                        <span class="text-[10px] text-slate-600 font-mono">UTC 2026.05.01</span>
+                    </div>
+                    <div id="live-feed" class="space-y-3 font-mono text-[11px] h-32 overflow-hidden">
+                        <div class="text-slate-500">[09:22:14] System: Booting Geo-Sentinel Master Node...</div>
+                        <div class="text-primary">[09:22:15] n8n: Checking active tenant triggers...</div>
+                        <div class="text-accent">[09:22:18] VoxSentinel: Scanning missed calls for Tenant_041...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PRODUCTS TAB -->
+            <section id="products" class="tab-content space-y-12">
                 
-                <!-- CONCEPT TAB -->
-                <section id="tab-idea" class="tab-content space-y-8 animate-in">
-                    <div class="max-w-3xl">
-                        <h1 class="text-5xl lg:text-7xl font-display font-black leading-tight mb-6">
-                            L'Arbitraggio della <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Reputazione AI</span>
-                        </h1>
-                        <p class="text-xl text-slate-400 leading-relaxed">
-                            Non vendi automazione. Vendi <strong>visibilità iper-locale</strong>. <br>
-                            I business locali muoiono se non sono nei primi 3 posti di Google Maps. Tu automatizzi la risposta alle recensioni iniettando keyword SEO, scalando il ranking senza che il titolare muova un dito.
-                        </p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="glass-panel p-8 rounded-3xl border-l-4 border-l-primary">
-                            <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-white">
-                                <i data-lucide="target" class="text-primary w-5 h-5"></i> Il Pain Point
-                            </h3>
-                            <p class="text-slate-400 text-sm leading-relaxed">
-                                Studi legali, cliniche e ristoranti ricevono recensioni ma non rispondono mai. Perdono il 40% del potenziale SEO locale. Rispondere manualmente è un costo; non rispondere è un suicidio commerciale.
+                <!-- VOXSENTINEL DETAIL -->
+                <div class="grid lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-5 space-y-6">
+                        <div class="p-8 rounded-[2rem] product-gradient-vox shadow-2xl shadow-vox/20">
+                            <div class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-lg flex items-center justify-center mb-6">
+                                <i data-lucide="phone-forwarded" class="text-white w-8 h-8"></i>
+                            </div>
+                            <h2 class="text-4xl font-display font-black text-white mb-4 italic">VoxSentinel</h2>
+                            <p class="text-white/80 text-lg leading-relaxed">
+                                "Il Centralinista che non dorme mai". Recupera il 20-30% delle chiamate perse trasformandole in lead caldi via SMS o Voice AI.
                             </p>
                         </div>
-                        <div class="glass-panel p-8 rounded-3xl border-l-4 border-l-accent">
-                            <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-white">
-                                <i data-lucide="zap" class="text-accent w-5 h-5"></i> La Killer Feature
-                            </h3>
-                            <p class="text-slate-400 text-sm leading-relaxed">
-                                Report mensili "Geo-Grid" tramite <strong>Local Falcon</strong>. Mostri al cliente una mappa di calore: da punti rossi (invisibile) a verdi (dominante). È la prova visiva del valore che trattiene il cliente per anni.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="glass-panel p-8 rounded-3xl bg-indigo-600/5 border-primary/20">
-                        <h3 class="text-xl font-bold mb-6 text-white">Analisi del Mercato 2026</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                            <div class="space-y-2">
-                                <span class="text-[10px] text-slate-500 uppercase font-black">Nicchia</span>
-                                <div class="text-sm font-bold text-white">Geo-Sentinel AI</div>
-                            </div>
-                            <div class="space-y-2">
-                                <span class="text-[10px] text-slate-500 uppercase font-black">Prezzo Target</span>
-                                <div class="text-sm font-bold text-accent">$49 - $99/mese</div>
-                            </div>
-                            <div class="space-y-2">
-                                <span class="text-[10px] text-slate-500 uppercase font-black">COGS Target</span>
-                                <div class="text-sm font-bold text-white">< 15% Ricavi</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- ROADMAP TAB -->
-                <section id="tab-roadmap" class="tab-content hidden space-y-6">
-                    <h2 class="text-3xl font-display font-bold text-white">Roadmap Esecutiva 100% Passiva</h2>
-                    
-                    <div class="space-y-4">
-                        <!-- Step 1 -->
-                        <div class="checklist-item glass-panel p-6 rounded-2xl flex items-start gap-4 transition-all hover:border-white/20">
-                            <div class="pt-1">
-                                <input type="checkbox" onchange="toggleStep(this)" class="w-6 h-6 rounded border-white/10 bg-white/5 text-primary focus:ring-primary focus:ring-offset-dark">
-                            </div>
-                            <div class="flex-grow">
-                                <h4 class="font-bold text-white mb-1">Fase 1: Engine Activation (n8n Managed)</h4>
-                                <p class="text-sm text-slate-500">Scegli <strong>PikaPods</strong> (5$/m) per hosting n8n senza limiti di esecuzioni. Configura OpenAI API con modello <code>gpt-4o-mini</code> per costi infinitesimali.</p>
-                            </div>
-                            <span class="tech-tag text-white">PikaPods / GPT-4</span>
-                        </div>
-
-                        <!-- Step 2 -->
-                        <div class="checklist-item glass-panel p-6 rounded-2xl flex items-start gap-4 transition-all hover:border-white/20">
-                            <div class="pt-1">
-                                <input type="checkbox" onchange="toggleStep(this)" class="w-6 h-6 rounded border-white/10 bg-white/5 text-primary focus:ring-primary focus:ring-offset-dark">
-                            </div>
-                            <div class="flex-grow">
-                                <h4 class="font-bold text-white mb-1">Fase 2: The Google Bypass (Zernio)</h4>
-                                <p class="text-sm text-slate-500">Evita mesi di approvazione GCP. Usa <strong>Zernio API</strong> (19$/m) per collegare i profili Google Business in OAuth istantaneo. Pubblicazione post e risposte via HTTP Node.</p>
-                            </div>
-                            <span class="tech-tag text-accent">Zernio REST</span>
-                        </div>
-
-                        <!-- Step 3 -->
-                        <div class="checklist-item glass-panel p-6 rounded-2xl flex items-start gap-4 transition-all hover:border-white/20">
-                            <div class="pt-1">
-                                <input type="checkbox" onchange="toggleStep(this)" class="w-6 h-6 rounded border-white/10 bg-white/5 text-primary focus:ring-primary focus:ring-offset-dark">
-                            </div>
-                            <div class="flex-grow">
-                                <h4 class="font-bold text-white mb-1">Fase 3: Safety Switch Workflow</h4>
-                                <p class="text-sm text-slate-500">Implementa logica IF/ELSE in n8n: Se stelle < 4, non rispondere ma avvisa il titolare su Telegram con bozza da approvare. Se stelle >= 4, genera risposta SEO e pubblica.</p>
-                            </div>
-                            <span class="tech-tag text-white">Logic Gate</span>
-                        </div>
-
-                        <!-- Step 4 -->
-                        <div class="checklist-item glass-panel p-6 rounded-2xl flex items-start gap-4 transition-all hover:border-white/20">
-                            <div class="pt-1">
-                                <input type="checkbox" onchange="toggleStep(this)" class="w-6 h-6 rounded border-white/10 bg-white/5 text-primary focus:ring-primary focus:ring-offset-dark">
-                            </div>
-                            <div class="flex-grow">
-                                <h4 class="font-bold text-white mb-1">Fase 4: Lead Gen & Outreach</h4>
-                                <p class="text-sm text-slate-500">Estrai lead con <strong>Apify</strong> o <strong>SphereScout</strong>. Invia email personalizzate integrando il video di prospecting generato dall'IA.</p>
-                            </div>
-                            <span class="tech-tag text-white">Outbound</span>
-                        </div>
-
-                        <!-- Step 5 -->
-                        <div class="checklist-item glass-panel p-6 rounded-2xl flex items-start gap-4 transition-all hover:border-white/20">
-                            <div class="pt-1">
-                                <input type="checkbox" onchange="toggleStep(this)" class="w-6 h-6 rounded border-white/10 bg-white/5 text-primary focus:ring-primary focus:ring-offset-dark">
-                            </div>
-                            <div class="flex-grow">
-                                <h4 class="font-bold text-white mb-1">Fase 5: Automated Retention Engine</h4>
-                                <p class="text-sm text-slate-500">Collega <strong>Local Falcon API</strong> per estrarre report Geo-Grid ogni 30 giorni. n8n invia automaticamente il PDF via email al cliente. Zero lavoro manuale post-vendita.</p>
-                            </div>
-                            <span class="tech-tag text-white">Retention</span>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- ECONOMICS TAB -->
-                <section id="tab-economics" class="tab-content hidden space-y-8">
-                    <h2 class="text-3xl font-display font-bold text-white">Analisi Costi & ROI Simulator</h2>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="glass-panel p-8 rounded-3xl space-y-6">
-                            <h3 class="text-xl font-bold flex items-center gap-2 text-primary">
-                                <i data-lucide="calculator" class="w-5 h-5"></i> Profit Calculator
-                            </h3>
-                            <div class="space-y-6">
-                                <div>
-                                    <label class="text-xs text-slate-500 uppercase font-bold block mb-2">Numero Clienti</label>
-                                    <input type="range" id="client-range" min="1" max="50" value="10" oninput="calculateROI()" class="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary">
-                                    <div class="flex justify-between mt-4 font-display text-2xl">
-                                        <span id="client-count" class="text-white">10</span>
-                                        <span class="text-primary font-black">$ <span id="calc-mrr">990</span>/mo</span>
-                                    </div>
-                                </div>
-                                <div class="pt-6 border-t border-white/5 space-y-3">
-                                    <div class="flex justify-between text-sm">
-                                        <span class="text-slate-400">Operational Costs (Fixed):</span>
-                                        <span class="text-danger font-bold">-$182</span>
-                                    </div>
-                                    <div class="flex justify-between text-sm">
-                                        <span class="text-slate-400">Taxes (Flat 5% Est.):</span>
-                                        <span id="calc-tax" class="text-danger font-bold">-$49</span>
-                                    </div>
-                                    <div class="flex justify-between text-xl pt-6 border-t border-white/5">
-                                        <span class="font-bold text-white">Net Profit:</span>
-                                        <span id="calc-net" class="font-black text-accent">$ 759</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="glass-panel p-8 rounded-3xl space-y-4">
-                            <h3 class="text-xl font-bold text-white">Infrastructure Stack (Pro Agency)</h3>
-                            <ul class="space-y-4 text-sm">
-                                <li class="flex justify-between border-b border-white/5 pb-2">
-                                    <div class="flex flex-col">
-                                        <span class="text-white font-medium">n8n Cloud (Starter)</span>
-                                        <span class="text-[10px] text-slate-500 uppercase">Automation Engine</span>
-                                    </div>
-                                    <span class="font-bold text-white">$24</span>
+                        <div class="glass-card p-8 rounded-3xl space-y-4">
+                            <h4 class="text-white font-bold flex items-center gap-2 uppercase tracking-tighter">
+                                <i data-lucide="cpu" class="w-4 h-4 text-vox"></i> Tech Blueprint
+                            </h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-center gap-3 text-xs text-slate-400">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-vox"></span>
+                                    **Twilio SDK**: Missed call detection (Webhook).
                                 </li>
-                                <li class="flex justify-between border-b border-white/5 pb-2">
-                                    <div class="flex flex-col">
-                                        <span class="text-white font-medium">Zernio API</span>
-                                        <span class="text-[10px] text-slate-500 uppercase">Google/Social Bypass</span>
-                                    </div>
-                                    <span class="font-bold text-white">$19</span>
+                                <li class="flex items-center gap-3 text-xs text-slate-400">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-vox"></span>
+                                    **Vapi / Retell**: Low-latency Voice Agents.
                                 </li>
-                                <li class="flex justify-between border-b border-white/5 pb-2">
-                                    <div class="flex flex-col">
-                                        <span class="text-white font-medium">SphereScout / Apollo</span>
-                                        <span class="text-[10px] text-slate-500 uppercase">Lead Extraction</span>
-                                    </div>
-                                    <span class="font-bold text-white">$35</span>
-                                </li>
-                                <li class="flex justify-between border-b border-white/5 pb-2">
-                                    <div class="flex flex-col">
-                                        <span class="text-white font-medium">Local Falcon</span>
-                                        <span class="text-[10px] text-slate-500 uppercase">Geo-Grid Reporting</span>
-                                    </div>
-                                    <span class="font-bold text-white">$50</span>
-                                </li>
-                                <li class="flex justify-between pt-2">
-                                    <span class="text-slate-400 font-bold uppercase text-xs">TOTAL MINIMUM COST</span>
-                                    <span class="font-black text-primary text-lg">$182/mo</span>
+                                <li class="flex items-center gap-3 text-xs text-slate-400">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-vox"></span>
+                                    **n8n Logic**: Multi-step escalation IF/ELSE.
                                 </li>
                             </ul>
                         </div>
                     </div>
-                </section>
-
-                <!-- RED PILL TAB -->
-                <section id="tab-vault" class="tab-content hidden space-y-8">
-                    <div class="p-8 rounded-3xl bg-danger/5 border border-danger/20">
-                        <h2 class="text-3xl font-display font-black text-danger mb-4 flex items-center gap-3">
-                            <i data-lucide="flame" class="w-8 h-8"></i> PROTOCOLLO PILLOLA ROSSA
-                        </h2>
-                        <p class="text-slate-400 text-lg">
-                            I 4 "Buchi Neri" che trasformano un SaaS in un lavoro da dipendente se non li automatizzi dal giorno 1.
-                        </p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="glass-panel p-8 rounded-3xl relative overflow-hidden group">
-                            <div class="absolute -right-6 -top-6 opacity-5 text-white transition-transform group-hover:scale-110"><i data-lucide="key" class="w-32 h-32"></i></div>
-                            <h4 class="font-bold text-xl text-white mb-4 flex items-center gap-2">
-                                <i data-lucide="key" class="text-danger w-5 h-5"></i> 1. Onboarding e Accessi
-                            </h4>
-                            <p class="text-sm text-slate-400 leading-relaxed">
-                                Se devi chiedergli la password di Google Business, hai fallito. Devi usare il sistema <strong>OAuth White-Label</strong> via Zernio. Il cliente paga su Stripe, atterra su una pagina "Connect", preme un tasto, e i token vanno a n8n.
-                            </p>
-                        </div>
-                        <div class="glass-panel p-8 rounded-3xl relative overflow-hidden group">
-                            <div class="absolute -right-6 -top-6 opacity-5 text-white transition-transform group-hover:scale-110"><i data-lucide="credit-card" class="w-32 h-32"></i></div>
-                            <h4 class="font-bold text-xl text-white mb-4 flex items-center gap-2">
-                                <i data-lucide="alert-circle" class="text-danger w-5 h-5"></i> 2. Carte Scadute
-                            </h4>
-                            <p class="text-sm text-slate-400 leading-relaxed">
-                                Rincorrere i clienti per 49$ distrugge il reddito passivo. Configura lo <strong>Stripe Billing Dunning</strong>. Se non paga dopo 3 email, Stripe manda un webhook a n8n che stacca il servizio al cliente.
-                            </p>
-                        </div>
-                        <div class="glass-panel p-8 rounded-3xl relative overflow-hidden group">
-                            <div class="absolute -right-6 -top-6 opacity-5 text-white transition-transform group-hover:scale-110"><i data-lucide="ghost" class="w-32 h-32"></i></div>
-                            <h4 class="font-bold text-xl text-white mb-4 flex items-center gap-2">
-                                <i data-lucide="help-circle" class="text-danger w-5 h-5"></i> 3. Mese Vuoto
-                            </h4>
-                            <p class="text-sm text-slate-400 leading-relaxed">
-                                Se in un mese non arrivano review, il cliente disdice. <strong>Prevenzione:</strong> n8n ogni mese genera un QR-Code "Stampa questo per ottenere più review". Generi valore percepito a costo zero.
-                            </p>
-                        </div>
-                        <div class="glass-panel p-8 rounded-3xl relative overflow-hidden group">
-                            <div class="absolute -right-6 -top-6 opacity-5 text-white transition-transform group-hover:scale-110"><i data-lucide="shield" class="w-32 h-32"></i></div>
-                            <h4 class="font-bold text-xl text-white mb-4 flex items-center gap-2">
-                                <i data-lucide="shield" class="text-danger w-5 h-5"></i> 4. Privacy & GDPR
-                            </h4>
-                            <p class="text-sm text-slate-400 leading-relaxed">
-                                Aggiungi nel form di checkout Stripe il checkbox: "Il cliente autorizza l'uso di IA di terze parti per l'elaborazione dei testi". Essenziale per coprirsi legalmente su elaborazione dati con OpenAI.
-                            </p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- FISCAL TAB -->
-                <section id="tab-fiscal" class="tab-content hidden space-y-8">
-                    <h2 class="text-3xl font-display font-bold text-white">Fiscalità SaaS Italia 2026</h2>
-                    
-                    <div class="glass-panel p-8 rounded-3xl border-l-4 border-l-primary bg-primary/5">
-                        <div class="flex flex-col sm:flex-row gap-8">
-                            <div class="bg-primary/20 p-6 rounded-3xl h-fit">
-                                <i data-lucide="landmark" class="text-primary w-12 h-12"></i>
-                            </div>
-                            <div class="space-y-6">
-                                <h3 class="text-2xl font-bold text-white">Regime Forfettario + Dipendente</h3>
-                                <p class="text-slate-400 leading-relaxed">
-                                    Essere dipendenti + forfettari è l'hack legale migliore in Italia per lanciare SaaS. Poiché sei già dipendente, hai un enorme scudo contributivo. In Gestione Separata l'aliquota cala al 24%, e si paga SOLO su quanto fatturi.
-                                </p>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
-                                        <span class="text-[10px] text-slate-500 uppercase font-black">Codice ATECO Consigliato</span>
-                                        <div class="text-sm font-bold text-white">62.10.00 (Sviluppo Soft.)</div>
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="glass-card p-8 rounded-3xl bg-surface/50 border-vox/20">
+                            <h3 class="text-xl font-display font-bold text-white mb-6">ROI Calculator: VoxSentinel</h3>
+                            <div class="space-y-8">
+                                <div>
+                                    <div class="flex justify-between mb-4">
+                                        <label class="text-xs font-bold text-slate-400 uppercase tracking-widest">Missed Calls / Month</label>
+                                        <span id="vox-val" class="text-vox font-display font-bold">150</span>
                                     </div>
-                                    <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
-                                        <span class="text-[10px] text-slate-500 uppercase font-black">Coefficiente Redditività</span>
-                                        <div class="text-sm font-bold text-accent">67%</div>
+                                    <input type="range" id="vox-input" min="10" max="500" value="150" class="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-vox">
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="p-6 rounded-2xl bg-dark/50 border border-white/5">
+                                        <p class="text-[10px] text-slate-500 uppercase font-black mb-1">Lead Saved (20%)</p>
+                                        <p id="vox-saved" class="text-2xl font-display font-black text-white">30</p>
+                                    </div>
+                                    <div class="p-6 rounded-2xl bg-dark/50 border border-white/5">
+                                        <p class="text-[10px] text-slate-500 uppercase font-black mb-1">Est. Revenue Recovery</p>
+                                        <p id="vox-revenue" class="text-2xl font-display font-black text-accent">$ 7,500</p>
                                     </div>
                                 </div>
-                                <div class="bg-danger/10 border border-danger/30 p-6 rounded-2xl">
-                                    <h5 class="text-sm font-black text-danger uppercase mb-2">Il Pericolo: Reverse Charge</h5>
-                                    <p class="text-xs text-slate-300 leading-relaxed">
-                                        Acquisterai software esteri B2B (OpenAI, Stripe, n8n) senza IVA. Dovrai integrarla tu (22%) e pagarla via F24 ogni mese tramite il commercialista per evitare sanzioni.
+                                <div class="p-4 rounded-xl bg-vox/5 border border-vox/10 text-center">
+                                    <p class="text-[10px] text-slate-500 italic">"Selling the result, not the software. Recovery $7.5k for $149/mo fee."</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+
+                <!-- OMNIRANK DETAIL -->
+                <div class="grid lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-5 order-1 lg:order-2 space-y-6">
+                        <div class="p-8 rounded-[2rem] product-gradient-rank shadow-2xl shadow-rank/20">
+                            <div class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-lg flex items-center justify-center mb-6">
+                                <i data-lucide="search" class="text-white w-8 h-8"></i>
+                            </div>
+                            <h2 class="text-4xl font-display font-black text-white mb-4 italic">OmniRank AEO</h2>
+                            <p class="text-white/80 text-lg leading-relaxed">
+                                "L'Arbitraggio della Risposta". Posiziona i business locali come citazioni primarie in ChatGPT, Perplexity e Google AI Overviews.
+                            </p>
+                        </div>
+                        <div class="glass-card p-8 rounded-3xl space-y-4">
+                            <h4 class="text-white font-bold flex items-center gap-2 uppercase tracking-tighter">
+                                <i data-lucide="layers" class="w-4 h-4 text-rank"></i> AEO Injector Logic
+                            </h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-center gap-3 text-xs text-slate-400">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-rank"></span>
+                                    **Zernio API**: OAuth connection to GMB/GBP.
+                                </li>
+                                <li class="flex items-center gap-3 text-xs text-slate-400">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-rank"></span>
+                                    **GPT-4o Vision**: Analyzing Map Geo-Grids.
+                                </li>
+                                <li class="flex items-center gap-3 text-xs text-slate-400">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-rank"></span>
+                                    **Local Falcon**: Automated retention reporting.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-7 order-2 lg:order-1 space-y-6">
+                        <div class="glass-card p-8 rounded-3xl space-y-6">
+                            <h3 class="text-xl font-display font-bold text-white mb-6">AEO Dominance Strategy</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-3 p-5 rounded-2xl bg-dark/40 border border-white/5">
+                                    <h5 class="text-xs font-black text-rank uppercase tracking-widest">Semantic Gap Engine</h5>
+                                    <p class="text-[11px] text-slate-400 leading-relaxed">
+                                        Analizziamo le citazioni dell'IA per una query locale (es: "Miglior Dentista Milano"). Identifichiamo i pattern semantici mancanti nel sito del cliente e li iniettiamo via JSON-LD.
+                                    </p>
+                                </div>
+                                <div class="space-y-3 p-5 rounded-2xl bg-dark/40 border border-white/5">
+                                    <h5 class="text-xs font-black text-rank uppercase tracking-widest">GMB Smart Reply</h5>
+                                    <p class="text-[11px] text-slate-400 leading-relaxed">
+                                        Ogni recensione viene risposta dall'IA iniettando keyword SEO geolocalizzate, aumentando il ranking organico nelle mappe del 40% in 90 giorni.
                                     </p>
                                 </div>
                             </div>
+                            <div class="p-6 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between">
+                                <div class="flex flex-col">
+                                    <span class="text-[10px] text-slate-500 uppercase font-black">Retention Hook</span>
+                                    <span class="text-sm font-bold text-white italic">Geo-Grid Heatmaps (Monthly)</span>
+                                </div>
+                                <i data-lucide="map" class="text-slate-600 w-8 h-8"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+
+                <!-- MEDFLOW / DENTAL VERTICAL -->
+                <div class="grid lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-5 space-y-6">
+                        <div class="p-8 rounded-[2rem] product-gradient-flow shadow-2xl shadow-flow/20">
+                            <div class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-lg flex items-center justify-center mb-6">
+                                <i data-lucide="activity" class="text-white w-8 h-8"></i>
+                            </div>
+                            <h2 class="text-4xl font-display font-black text-white mb-4 italic">MedFlow</h2>
+                            <p class="text-white/80 text-lg leading-relaxed">
+                                "The Revenue Engine for Clinics". Automazione WhatsApp Business per abbattere i No-Show e saturare l'agenda.
+                            </p>
+                        </div>
+                        <div class="glass-card p-8 rounded-3xl space-y-4">
+                            <h4 class="text-white font-bold flex items-center gap-2 uppercase tracking-tighter">
+                                <i data-lucide="stethoscope" class="w-4 h-4 text-flow"></i> Dental Appendix
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="flex gap-4">
+                                    <div class="w-10 h-10 rounded-lg bg-flow/10 flex-shrink-0 flex items-center justify-center text-flow font-bold text-xs italic">A1</div>
+                                    <div>
+                                        <p class="text-xs font-bold text-white mb-1 uppercase tracking-tight">DentaTriage AI</p>
+                                        <p class="text-[10px] text-slate-500">Qualifica emergenze fuori orario via Voice Agent e prenota in AlfaDocs.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="w-10 h-10 rounded-lg bg-flow/10 flex-shrink-0 flex items-center justify-center text-flow font-bold text-xs italic">A2</div>
+                                    <div>
+                                        <p class="text-xs font-bold text-white mb-1 uppercase tracking-tight">RecallMachine</p>
+                                        <p class="text-[10px] text-slate-500">Recupero automatico pazienti dormienti per igiene dentale via WhatsApp.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="w-10 h-10 rounded-lg bg-flow/10 flex-shrink-0 flex items-center justify-center text-flow font-bold text-xs italic">A3</div>
+                                    <div>
+                                        <p class="text-xs font-bold text-white mb-1 uppercase tracking-tight">High-Ticket Closer</p>
+                                        <p class="text-[10px] text-slate-500">Follow-up preventivi (Impianti/Invisalign) con Drip Campaign educative.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="glass-card p-8 rounded-3xl bg-surface/50 border-flow/20">
+                            <h3 class="text-xl font-display font-bold text-white mb-6">Infrastruttura WhatsApp (WABA)</h3>
+                            <div class="space-y-6">
+                                <div class="p-6 rounded-2xl bg-dark/50 border border-white/5 space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-black text-slate-500 uppercase">Provider Direct Link</span>
+                                        <span class="text-xs font-bold text-flow">360dialog</span>
+                                    </div>
+                                    <p class="text-sm text-slate-300 leading-relaxed">
+                                        Evitiamo i markup di Twilio. Usiamo **360dialog** ($49/mo) per collegare l'API ufficiale di Meta direttamente a n8n. Messaggistica illimitata, 100% compliant.
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="p-5 rounded-2xl border border-white/5 flex flex-col items-center justify-center text-center">
+                                        <i data-lucide="calendar" class="text-flow w-6 h-6 mb-2"></i>
+                                        <span class="text-[10px] text-slate-500 uppercase font-black">Sync Logic</span>
+                                        <span class="text-xs font-bold text-white">Cal.com / AlfaDocs</span>
+                                    </div>
+                                    <div class="p-5 rounded-2xl border border-white/5 flex flex-col items-center justify-center text-center">
+                                        <i data-lucide="shield" class="text-accent w-6 h-6 mb-2"></i>
+                                        <span class="text-[10px] text-slate-500 uppercase font-black">Privacy</span>
+                                        <span class="text-xs font-bold text-white italic">GDPR Ghost Mode</span>
+                                    </div>
+                                </div>
+                                <div class="p-6 rounded-2xl bg-accent/5 border border-accent/20">
+                                    <h5 class="text-xs font-black text-accent uppercase mb-2">The Result: No-Show Reduction</h5>
+                                    <p class="text-lg font-display font-bold text-white">4% No-Show Rate <span class="text-slate-500 font-normal text-xs">(from 18% avg.)</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+                <!-- STACK MATRIX TAB -->
+                <section id="stack" class="tab-content space-y-12">
+                    <div class="max-w-3xl">
+                        <h2 class="text-4xl lg:text-5xl font-display font-black text-white mb-6 tracking-tight">Market Stack Matrix</h2>
+                        <p class="text-slate-400 text-lg leading-relaxed">
+                            Una mappatura completa delle tecnologie per l'arbitraggio AI. Scegli lo stack giusto per massimizzare i margini del tuo tenant.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                        <!-- Category: Automation -->
+                        <div class="glass-card p-6 rounded-3xl space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center"><i data-lucide="git-branch" class="text-primary w-5 h-5"></i></div>
+                                <h4 class="font-display font-bold text-white uppercase tracking-widest text-xs">Orchestration</h4>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="p-4 rounded-2xl bg-white/5 border border-white/10 group hover:border-primary/50 transition-all">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="text-sm font-bold text-white">n8n (Self-Hosted)</span>
+                                        <span class="text-[9px] font-black text-accent bg-accent/10 px-2 py-0.5 rounded uppercase">Winner</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 italic mb-2">Costi fissi, flessibilità infinita via codice.</p>
+                                    <span class="text-[10px] font-bold text-primary">Cost: $5-20/mo</span>
+                                </div>
+                                <div class="p-4 rounded-2xl bg-white/5 border border-white/10 opacity-60">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="text-sm font-bold text-white">Make.com</span>
+                                        <span class="text-[9px] font-black text-slate-400 bg-white/5 px-2 py-0.5 rounded uppercase">UX Priority</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 italic mb-2">Scalabilità costosa (pay-per-op).</p>
+                                    <span class="text-[10px] font-bold text-slate-400">Cost: $30+/mo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category: Voice AI -->
+                        <div class="glass-card p-6 rounded-3xl space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-vox/10 flex items-center justify-center"><i data-lucide="mic-2" class="text-vox w-5 h-5"></i></div>
+                                <h4 class="font-display font-bold text-white uppercase tracking-widest text-xs">Voice & Telephony</h4>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="p-4 rounded-2xl bg-white/5 border border-white/10 group hover:border-vox/50 transition-all">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="text-sm font-bold text-white">Vapi / Retell AI</span>
+                                        <span class="text-[9px] font-black text-accent bg-accent/10 px-2 py-0.5 rounded uppercase">Latency</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 italic mb-2">Latenza < 1s. Perfetto per centralini.</p>
+                                    <span class="text-[10px] font-bold text-vox">Cost: ~$0.15/min</span>
+                                </div>
+                                <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="text-sm font-bold text-white">Twilio Voice</span>
+                                        <span class="text-[9px] font-black text-slate-400 bg-white/5 px-2 py-0.5 rounded uppercase">Infra</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 italic mb-2">Base per numeri e log di chiamata.</p>
+                                    <span class="text-[10px] font-bold text-vox">Cost: $1/num/mo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category: Messaging -->
+                        <div class="glass-card p-6 rounded-3xl space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-flow/10 flex items-center justify-center"><i data-lucide="message-square" class="text-flow w-5 h-5"></i></div>
+                                <h4 class="font-display font-bold text-white uppercase tracking-widest text-xs">WhatsApp Business</h4>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="p-4 rounded-2xl bg-white/5 border border-white/10 group hover:border-flow/50 transition-all">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="text-sm font-bold text-white">360dialog</span>
+                                        <span class="text-[9px] font-black text-accent bg-accent/10 px-2 py-0.5 rounded uppercase">Margin</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 italic mb-2">Hosting WABA puro a quota fissa.</p>
+                                    <span class="text-[10px] font-bold text-flow">Cost: $49/mo</span>
+                                </div>
+                                <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="text-sm font-bold text-white">Twilio WABA</span>
+                                        <span class="text-[9px] font-black text-slate-400 bg-white/5 px-2 py-0.5 rounded uppercase">Enterprise</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 italic mb-2">Scalabile ma costi extra su ogni messaggio.</p>
+                                    <span class="text-[10px] font-bold text-flow">Cost: Pay-as-you-go</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category: Data Sourcing -->
+                        <div class="glass-card p-6 rounded-3xl space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-rank/10 flex items-center justify-center"><i data-lucide="database" class="text-rank w-5 h-5"></i></div>
+                                <h4 class="font-display font-bold text-white uppercase tracking-widest text-xs">Lead Generation</h4>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="p-4 rounded-2xl bg-white/5 border border-white/10 group hover:border-rank/50 transition-all">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="text-sm font-bold text-white">Apify / Outscraper</span>
+                                        <span class="text-[9px] font-black text-accent bg-accent/10 px-2 py-0.5 rounded uppercase">Maps</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 italic mb-2">Scraping massivo di GMB e recensioni.</p>
+                                    <span class="text-[10px] font-bold text-rank">Cost: ~$50/mo</span>
+                                </div>
+                                <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="text-sm font-bold text-white">SphereScout</span>
+                                        <span class="text-[9px] font-black text-slate-400 bg-white/5 px-2 py-0.5 rounded uppercase">B2B Deep</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 italic mb-2">Ricerca lead ultra-profilati via AI.</p>
+                                    <span class="text-[10px] font-bold text-rank">Cost: ~$35/mo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category: Outreach -->
+                        <div class="glass-card p-6 rounded-3xl space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-warning/10 flex items-center justify-center"><i data-lucide="mail" class="text-warning w-5 h-5"></i></div>
+                                <h4 class="font-display font-bold text-white uppercase tracking-widest text-xs">Sales & Outreach</h4>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="p-4 rounded-2xl bg-white/5 border border-white/10 group hover:border-warning/50 transition-all">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="text-sm font-bold text-white">Instantly.ai</span>
+                                        <span class="text-[9px] font-black text-accent bg-accent/10 px-2 py-0.5 rounded uppercase">Scale</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 italic mb-2">Domain warmup e cold email illimitate.</p>
+                                    <span class="text-[10px] font-bold text-warning">Cost: $37/mo</span>
+                                </div>
+                                <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="text-sm font-bold text-white">Sendspark</span>
+                                        <span class="text-[9px] font-black text-slate-400 bg-white/5 px-2 py-0.5 rounded uppercase">Conversion</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 italic mb-2">Video prospecting personalizzato via AI.</p>
+                                    <span class="text-[10px] font-bold text-warning">Cost: $20+/mo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category: Front-end -->
+                        <div class="glass-card p-6 rounded-3xl space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-danger/10 flex items-center justify-center"><i data-lucide="monitor" class="text-danger w-5 h-5"></i></div>
+                                <h4 class="font-display font-bold text-white uppercase tracking-widest text-xs">Customer Portal</h4>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="p-4 rounded-2xl bg-white/5 border border-white/10 group hover:border-danger/50 transition-all">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="text-sm font-bold text-white">Softr / Tally</span>
+                                        <span class="text-[9px] font-black text-accent bg-accent/10 px-2 py-0.5 rounded uppercase">No-Code</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 italic mb-2">Dashboard per i clienti e form onboarding.</p>
+                                    <span class="text-[10px] font-bold text-danger">Cost: $0-24/mo</span>
+                                </div>
+                                <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="text-sm font-bold text-white">Looker Studio</span>
+                                        <span class="text-[9px] font-black text-slate-400 bg-white/5 px-2 py-0.5 rounded uppercase">Dopamine</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 italic mb-2">Reporting automatico e professionale.</p>
+                                    <span class="text-[10px] font-bold text-danger">Cost: Free</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-8 rounded-3xl bg-surface border border-white/5">
+                        <h4 class="text-lg font-display font-bold text-white mb-4 italic">Strategia di Selezione Stack</h4>
+                        <div class="grid md:grid-cols-2 gap-8 text-sm text-slate-400 leading-relaxed">
+                            <p>
+                                <strong class="text-white">Fase Alpha:</strong> Inizia con **n8n + OpenAI + PikaPods**. È il setup più economico ($15-20/mo totali) per validare le prime 5-10 licenze. Non complicare lo stack finché non hai cassa.
+                            </p>
+                            <p>
+                                <strong class="text-white">Scaling Mode:</strong> Quando superi i 20 clienti, integra **360dialog** per WhatsApp e **Vapi** per la fonia avanzata. Sposta i lead su un CRM come **Airtable** per gestire i metadati dei tenant.
+                            </p>
                         </div>
                     </div>
                 </section>
 
-                <!-- OPINION TAB (ANTIGRAVITY) -->
-                <section id="tab-opinion" class="tab-content hidden space-y-8">
-                    <div class="p-10 rounded-3xl bg-primary/10 border border-primary/30 relative overflow-hidden">
-                        <div class="absolute right-0 top-0 p-8 opacity-10"><i data-lucide="brain-circuit" class="w-48 h-48"></i></div>
-                        <h2 class="text-4xl font-display font-black text-white mb-6">Antigravity Insights & Suggestions</h2>
-                        <p class="text-slate-400 text-lg leading-relaxed max-w-2xl">
-                            Il piano è chirurgico, ma ecco come lo trasformerei in un impero scalabile eliminando la frizione di vendita iniziale.
+                <!-- ENGINE TAB -->
+            <section id="engine" class="tab-content space-y-12">
+                <div class="max-w-3xl">
+                    <h2 class="text-4xl lg:text-5xl font-display font-black text-white mb-6">Orchestratore n8n</h2>
+                    <p class="text-slate-400 text-lg leading-relaxed">
+                        Il cuore pulsante di Geo-Sentinel. Niente Zapier, niente costi scalari. Solo pura logica self-hosted per margini chirurgici.
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <div class="glass-card p-8 rounded-3xl space-y-6">
+                        <div class="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                            <i data-lucide="server" class="text-primary w-6 h-6"></i>
+                        </div>
+                        <h4 class="text-xl font-display font-bold text-white">Hosting Paradigm</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed italic">"PikaPods Managed Self-Hosting"</p>
+                        <ul class="space-y-3 text-[11px] text-slate-500">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-primary"></i> Zero Manutenzione Server</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-primary"></i> Esecuzioni Illimitate</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-primary"></i> Backups automatici in PikaPods</li>
+                            <li class="flex items-center gap-2 border-t border-white/5 pt-2 mt-2">
+                                <span class="font-bold text-white">Cost: $ 5.00 / month</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="glass-card p-8 rounded-3xl space-y-6">
+                        <div class="w-12 h-12 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center">
+                            <i data-lucide="database" class="text-accent w-6 h-6"></i>
+                        </div>
+                        <h4 class="text-xl font-display font-bold text-white">Multi-Tenant Master</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed italic">"One Workflow, Infinite Clients"</p>
+                        <p class="text-[11px] text-slate-500 leading-relaxed">
+                            Ogni esecuzione inizia con una query a **PostgreSQL** per iniettare i parametri specifici (Tenant ID, System Prompt, API Keys). Architettura scalabile orizzontalmente con **Prompt Versioning** per rollback istantanei.
                         </p>
                     </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="glass-panel p-8 rounded-3xl space-y-4 border-t-4 border-t-primary transition-all hover:-translate-y-1">
-                            <h4 class="font-bold text-xl flex items-center gap-2 text-white">
-                                <i data-lucide="video" class="text-primary w-6 h-6"></i> 1. Video-Prospecting AI (Sendspark)
-                            </h4>
-                            <p class="text-sm text-slate-400 leading-relaxed">
-                                Invece di una email di testo, usa l'API di <strong>Sendspark</strong>. n8n può generare automaticamente un video dove l'avatar dell'IA dice il nome del destinatario e lo sfondo è la *sua* mappa Geo-Grid rossa. La conversione sale dal 1% al 15% perché è personalizzata al massimo.
-                            </p>
+                    <div class="glass-card p-8 rounded-3xl space-y-6">
+                        <div class="w-12 h-12 rounded-2xl bg-vox/10 border border-vox/20 flex items-center justify-center">
+                            <i data-lucide="activity" class="text-vox w-6 h-6"></i>
                         </div>
-                        <div class="glass-panel p-8 rounded-3xl space-y-4 border-t-4 border-t-accent transition-all hover:-translate-y-1">
-                            <h4 class="font-bold text-xl flex items-center gap-2 text-white">
-                                <i data-lucide="mail" class="text-accent w-6 h-6"></i> 2. Domain Farming Strategy
-                            </h4>
-                            <p class="text-sm text-slate-400 leading-relaxed">
-                                Non inviare email dal tuo dominio principale. Compra 5 domini "cloni" (.it / .com), scaldali per 14 giorni su <strong>Instantly</strong> e invia solo 30 email per account al giorno. Se un dominio viene segnalato, lo scarti e il business non si ferma mai.
-                            </p>
-                        </div>
-                        <div class="glass-panel p-8 rounded-3xl space-y-4 border-t-4 border-t-danger transition-all hover:-translate-y-1">
-                            <h4 class="font-bold text-xl flex items-center gap-2 text-white">
-                                <i data-lucide="layout" class="text-danger w-6 h-6"></i> 3. Client Portal (Perceived Value)
-                            </h4>
-                            <p class="text-sm text-slate-400 leading-relaxed">
-                                Dai al cliente una dashboard (usa <strong>Softr</strong> o <strong>Tally</strong>) dove vede le risposte generate dall'IA. Anche se è tutto automatico, vedere una dashboard dedicata giustifica i $99/mese molto più di una semplice email mensile.
-                            </p>
-                        </div>
-                        <div class="glass-panel p-8 rounded-3xl space-y-4 border-t-4 border-t-white transition-all hover:-translate-y-1">
-                            <h4 class="font-bold text-xl flex items-center gap-2 text-white">
-                                <i data-lucide="trending-up" class="text-white w-6 h-6"></i> 4. Upsell: Google Posts Automation
-                            </h4>
-                            <p class="text-sm text-slate-400 leading-relaxed">
-                                Una volta dentro, vendi l'upsell: "Google Post automatici". n8n può prendere i post da Instagram e ri-pubblicarli su Google Business per tenere la scheda sempre "fresca" agli occhi di Google. +$30/mese di puro margine.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="glass-panel p-8 rounded-3xl bg-accent/5 border-accent/20">
-                        <h4 class="text-accent font-bold mb-2">Considerazione Finale</h4>
-                        <p class="text-slate-400 text-sm leading-relaxed">
-                            L'obiettivo di $1000 MRR è solo l'inizio. Questo modello ha un <strong>LTV (Lifetime Value)</strong> altissimo perché una volta che la scheda Google sale di posizione, il cliente avrà paura di staccare il bot e scendere di nuovo. È un "pizzo" tecnologico legale e ad alto valore aggiunto.
+                        <h4 class="text-xl font-display font-bold text-white">Tenant Health Monitoring</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed italic">"Zero Churn Strategy"</p>
+                        <p class="text-[11px] text-slate-500 leading-relaxed">
+                            Logica di monitoring integrata: se le API di un cliente falliscono o i crediti sono esauriti, il sistema invia un alert preventivo via Slack/Telegram. Interveniamo prima che il cliente se ne accorga.
                         </p>
                     </div>
-                </section>
+                    <div class="glass-card p-8 rounded-3xl space-y-6">
+                        <div class="w-12 h-12 rounded-2xl bg-warning/10 border border-warning/20 flex items-center justify-center">
+                            <i data-lucide="zap" class="text-warning w-6 h-6"></i>
+                        </div>
+                        <h4 class="text-xl font-display font-bold text-white">Error & Backoff</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed italic">"Bulletproof Reliability"</p>
+                        <p class="text-[11px] text-slate-500 leading-relaxed">
+                            Implementazione sistematica di logiche **Retry on Fail** con backoff esponenziale. Se le API di Meta o OpenAI sono sature, il sistema non perde il dato: aspetta e riprova.
+                        </p>
+                    </div>
+                </div>
 
-            </div>
+                <div class="p-8 rounded-3xl bg-surface border border-white/5 space-y-6">
+                    <h4 class="text-lg font-display font-bold text-white flex items-center gap-2">
+                        <i data-lucide="mail-warning" class="text-warning w-5 h-5"></i> Domain Farming Protocol
+                    </h4>
+                    <div class="grid md:grid-cols-2 gap-8 text-[11px] text-slate-400 leading-relaxed">
+                        <p>
+                            Per proteggere il brand principale, usiamo la regola **3x Domains per Prodotto**. Ogni dominio (es: getvoxsentinel.com, usevoxsentinel.net) subisce un **Warmup di 21 giorni** via Instantly.ai prima di iniziare l'outreach.
+                        </p>
+                        <p>
+                            Configurazione rigorosa di **SPF, DKIM e DMARC** su ogni dominio satellite. Gestione centralizzata delle risposte (Master Inbox) per non perdere alcun lead caldo mentre n8n gestisce il follow-up automatico.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="glass-card p-10 rounded-[2.5rem] border-white/5 relative overflow-hidden">
+                    <div class="absolute right-0 bottom-0 opacity-5"><i data-lucide="git-merge" class="w-64 h-64"></i></div>
+                    <h3 class="text-2xl font-display font-bold text-white mb-8">Lead Generation Architecture</h3>
+                    <div class="grid md:grid-cols-3 gap-8 text-center">
+                        <div class="space-y-3">
+                            <div class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-4">
+                                <span class="font-bold text-slate-400">01</span>
+                            </div>
+                            <h5 class="text-sm font-bold text-white uppercase tracking-tight">Scraping</h5>
+                            <p class="text-[11px] text-slate-500">Apify / Outscraper per estrarre business con review negative sulla reperibilità.</p>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-4">
+                                <span class="font-bold text-slate-400">02</span>
+                            </div>
+                            <h5 class="text-sm font-bold text-white uppercase tracking-tight">Prospecting</h5>
+                            <p class="text-[11px] text-slate-500">**Instantly.ai** per domain warming e invio a freddo personalizzato via n8n.</p>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-4">
+                                <span class="font-bold text-slate-400">03</span>
+                            </div>
+                            <h5 class="text-sm font-bold text-white uppercase tracking-tight">Closure</h5>
+                            <p class="text-[11px] text-slate-500">**Sendspark API** per generare video personalizzati dinamici con la loro Geo-Grid.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ECONOMICS TAB -->
+            <section id="economics" class="tab-content space-y-12">
+                <div class="max-w-3xl">
+                    <h2 class="text-4xl lg:text-5xl font-display font-black text-white mb-6">P&L Framework 2026</h2>
+                    <p class="text-slate-400 text-lg leading-relaxed">
+                        L'obiettivo di $1.000 MRR è la base. Ecco i numeri reali per gestire un business ad alta efficienza in Italia.
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- INFRASTRUCTURE COSTS -->
+                    <div class="glass-card p-10 rounded-[2rem] space-y-8">
+                        <h3 class="text-xl font-display font-bold text-white flex items-center gap-3">
+                            <i data-lucide="credit-card" class="text-primary w-6 h-6"></i> Infrastructure Stack
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center py-3 border-b border-white/5">
+                                <span class="text-xs text-slate-400">n8n Cloud + VPS</span>
+                                <span class="text-xs font-bold text-white">$ 30.00</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 border-b border-white/5">
+                                <span class="text-xs text-slate-400">Zernio API (Social/Google)</span>
+                                <span class="text-xs font-bold text-white">$ 19.00</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 border-b border-white/5">
+                                <span class="text-xs text-slate-400">Apollo / Lead Enrichment</span>
+                                <span class="text-xs font-bold text-white">$ 35.00</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 border-b border-white/5">
+                                <span class="text-xs text-slate-400">Local Falcon (Geo-Grid)</span>
+                                <span class="text-xs font-bold text-white">$ 50.00</span>
+                            </div>
+                            <div class="flex justify-between items-center py-3 border-b border-white/5">
+                                <span class="text-xs text-slate-400">Instantly.ai (Outreach)</span>
+                                <span class="text-xs font-bold text-white">$ 48.00</span>
+                            </div>
+                            <div class="flex justify-between items-center pt-6">
+                                <span class="text-xs font-black text-slate-500 uppercase tracking-widest">Total Monthly OPEX</span>
+                                <span class="text-2xl font-display font-black text-primary">$ 182.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FISCAL FRAMEWORK -->
+                    <div class="glass-card p-10 rounded-[2rem] space-y-6 border-l-4 border-l-accent">
+                        <h3 class="text-xl font-display font-bold text-white flex items-center gap-3">
+                            <i data-lucide="landmark" class="text-accent w-6 h-6"></i> Fiscal Strategy (Italy)
+                        </h3>
+                        <div class="space-y-6">
+                            <div class="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-4">
+                                <h5 class="text-xs font-black text-slate-500 uppercase">Regime Forfettario + Dipendente</h5>
+                                <p class="text-[11px] text-slate-400 leading-relaxed">
+                                    Hack Legale: Se sei dipendente, la Gestione Separata INPS scende al **24%**. Tassazione sostitutiva al **5%** (per 5 anni).
+                                </p>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="flex flex-col">
+                                        <span class="text-[9px] text-slate-500 uppercase">Ateco</span>
+                                        <span class="text-[10px] font-bold text-white italic">62.10.00 (Software)</span>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="text-[9px] text-slate-500 uppercase">Coefficiente</span>
+                                        <span class="text-xs font-bold text-accent">67%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-6 rounded-2xl bg-danger/5 border border-danger/20">
+                                <h5 class="text-xs font-black text-danger uppercase mb-2">Reverse Charge Warning</h5>
+                                <p class="text-[10px] text-slate-400 leading-relaxed">
+                                    Fatture estere (OpenAI, Stripe, PikaPods) arrivano senza IVA. Obbligo di integrazione (22%) e versamento via F24 ogni mese.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PRICING TIERS -->
+                    <div class="glass-card p-10 rounded-[2rem] space-y-8 bg-gradient-to-b from-white/5 to-transparent">
+                        <h3 class="text-xl font-display font-bold text-white flex items-center gap-3">
+                            <i data-lucide="tag" class="text-primary w-6 h-6"></i> Pricing Tiers
+                        </h3>
+                        <div class="grid gap-4">
+                            <div class="flex justify-between items-center p-4 rounded-2xl bg-dark/50 border border-white/5">
+                                <div>
+                                    <p class="text-xs font-black text-white uppercase tracking-widest">Vox Sentinel Start</p>
+                                    <p class="text-[10px] text-slate-500">Recupero chiamate + AI Voice</p>
+                                </div>
+                                <span class="text-lg font-display font-black text-primary">€ 149/mo</span>
+                            </div>
+                            <div class="flex justify-between items-center p-4 rounded-2xl bg-dark/50 border border-primary/20">
+                                <div>
+                                    <p class="text-xs font-black text-white uppercase tracking-widest">OmniRank Core</p>
+                                    <p class="text-[10px] text-slate-500">AEO Dominance + SEO Mappe</p>
+                                </div>
+                                <span class="text-lg font-display font-black text-primary">€ 299/mo</span>
+                            </div>
+                            <div class="flex justify-between items-center p-4 rounded-2xl bg-dark/50 border border-white/5">
+                                <div>
+                                    <p class="text-xs font-black text-white uppercase tracking-widest">MedFlow Enterprise</p>
+                                    <p class="text-[10px] text-slate-500">WhatsApp + Integrazione AlfaDocs</p>
+                                </div>
+                                <span class="text-lg font-display font-black text-primary">Custom</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VAULT / RED PILL TAB -->
+            <section id="vault" class="tab-content space-y-12">
+                <div class="p-10 lg:p-16 rounded-[3rem] bg-gradient-to-br from-danger/10 to-dark border border-danger/20 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 p-12 opacity-5"><i data-lucide="flame" class="w-64 h-64"></i></div>
+                    <div class="relative z-10 space-y-8">
+                        <h2 class="text-4xl lg:text-7xl font-display font-black text-danger italic leading-[1.1]">
+                            PROTOCOLLO <br> PILLOLA ROSSA
+                        </h2>
+                        <p class="text-slate-400 text-lg lg:text-xl max-w-2xl leading-relaxed">
+                            I 4 "Killer Invisibili" che distruggono il tuo tempo e i tuoi margini. Se non li automatizzi, non hai un business, hai un lavoro.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="glass-card p-10 rounded-[2rem] border-t-2 border-t-danger space-y-4 relative overflow-hidden group">
+                        <div class="absolute -right-4 -top-4 opacity-5 group-hover:scale-110 transition-transform"><i data-lucide="key" class="w-32 h-32"></i></div>
+                        <h4 class="text-xl font-display font-black text-white italic">01. Onboarding Zero-Touch</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Mai chiedere password. Usiamo **OAuth White-Label** via Zernio. Il cliente paga su Stripe, atterra sulla pagina "Connetti", preme un tasto. I token fluiscono in n8n. Tempo richiesto: 0 minuti.
+                        </p>
+                    </div>
+                    <div class="glass-card p-10 rounded-[2rem] border-t-2 border-t-danger space-y-4 relative overflow-hidden group">
+                        <div class="absolute -right-4 -top-4 opacity-5 group-hover:scale-110 transition-transform"><i data-lucide="credit-card" class="w-32 h-32"></i></div>
+                        <h4 class="text-xl font-display font-black text-white italic">02. Dunning Automation</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Rincorrere 49$ è un suicidio operativo. **Stripe Smart Retries** gestisce le carte scadute. Se il pagamento fallisce 3 volte, un webhook stacca istantaneamente il servizio (API Switch).
+                        </p>
+                    </div>
+                    <div class="glass-card p-10 rounded-[2rem] border-t-2 border-t-danger space-y-4 relative overflow-hidden group">
+                        <div class="absolute -right-4 -top-4 opacity-5 group-hover:scale-110 transition-transform"><i data-lucide="shield-check" class="w-32 h-32"></i></div>
+                        <h4 class="text-xl font-display font-black text-white italic">03. GDPR Ghost Mode</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Siamo conformi by-design. Ogni dato sensibile (PII) viene eliminato dai server n8n/Postgres entro 24 ore. Il sistema gestisce anche le richieste **DSAR (Data Access)** in modo automatico via n8n.
+                        </p>
+                    </div>
+                    <div class="glass-card p-10 rounded-[2rem] border-t-2 border-t-danger space-y-4 relative overflow-hidden group">
+                        <div class="absolute -right-4 -top-4 opacity-5 group-hover:scale-110 transition-transform"><i data-lucide="ghost" class="w-32 h-32"></i></div>
+                        <h4 class="text-xl font-display font-black text-white italic">04. Consent Loop</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Le API di Meta banano senza pietà. Il bot non scrive mai a nessuno che non abbia espresso un **Opt-in** esplicito via widget o QR-Code. Architettura a prova di ban.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MOBILE NAVIGATION (BOTTOM) -->
+    <nav class="fixed bottom-0 left-0 w-full z-[100] lg:hidden glass border-t border-white/5 mobile-nav">
+        <div class="grid grid-cols-6 h-16">
+            <button onclick="switchTab('overview')" class="flex flex-col items-center justify-center gap-1 active nav-link">
+                <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                <span class="text-[8px] font-black uppercase tracking-widest">Home</span>
+            </button>
+            <button onclick="switchTab('products')" class="flex flex-col items-center justify-center gap-1 nav-link">
+                <i data-lucide="box" class="w-5 h-5"></i>
+                <span class="text-[8px] font-black uppercase tracking-widest">Apps</span>
+            </button>
+            <button onclick="switchTab('stack')" class="flex flex-col items-center justify-center gap-1 nav-link">
+                <i data-lucide="layers" class="w-5 h-5"></i>
+                <span class="text-[8px] font-black uppercase tracking-widest">Tools</span>
+            </button>
+            <button onclick="switchTab('engine')" class="flex flex-col items-center justify-center gap-1 nav-link">
+                <i data-lucide="cpu" class="w-5 h-5"></i>
+                <span class="text-[8px] font-black uppercase tracking-widest">Engine</span>
+            </button>
+            <button onclick="switchTab('economics')" class="flex flex-col items-center justify-center gap-1 nav-link">
+                <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                <span class="text-[8px] font-black uppercase tracking-widest">Profit</span>
+            </button>
+            <button onclick="switchTab('vault')" class="flex flex-col items-center justify-center gap-1 nav-link">
+                <i data-lucide="flame" class="w-5 h-5 text-danger"></i>
+                <span class="text-[8px] font-black uppercase tracking-widest text-danger">Vault</span>
+            </button>
         </div>
-    </main>
+    </nav>
 
-    <!-- Global Footer -->
-    <footer class="glass-panel border-t border-white/5 py-12 mt-auto">
-        <div class="max-w-screen-2xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+    <!-- FOOTER -->
+    <footer class="max-w-7xl mx-auto px-4 lg:pl-28 xl:pl-72 lg:pr-8 py-12 border-t border-white/5 opacity-50">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-8">
             <div class="flex items-center gap-4">
-                <div class="bg-primary/20 p-2 rounded-lg">
-                    <i data-lucide="rocket" class="text-primary w-4 h-4"></i>
-                </div>
-                <div class="text-slate-500 text-[10px] font-black uppercase tracking-[0.3em]">
-                    Geo-Sentinel Framework &copy; 2026
-                </div>
+                <i data-lucide="rocket" class="w-5 h-5 text-slate-500"></i>
+                <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Geo-Sentinel Masterplan &copy; 2026</p>
             </div>
-            <div class="flex items-center gap-8">
-                <a href="#" class="text-slate-500 hover:text-white transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
-                <a href="#" class="text-slate-500 hover:text-white transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
-                <div class="flex items-center gap-2 text-accent px-3 py-1 rounded-full bg-accent/10 border border-accent/20">
-                    <div class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></div>
-                    <span class="text-[10px] font-black uppercase tracking-widest">System Operational</span>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+                    <span class="text-[10px] font-bold text-accent uppercase tracking-widest">Node active</span>
                 </div>
+                <span class="text-[10px] font-mono text-slate-600 italic">"The Golden Ticket is being minted..."</span>
             </div>
         </div>
     </footer>
 
-    <!-- Logic Scripts -->
+    <!-- LOGIC -->
     <script>
-        // Initialize Lucide
+        // Initialize Icons
         lucide.createIcons();
 
-        // GSAP Animations on Load
-        window.addEventListener('load', () => {
-            gsap.from(".animate-in", { 
-                opacity: 0, 
-                y: 30, 
-                duration: 1, 
-                stagger: 0.15, 
-                ease: "power3.out" 
-            });
-        });
+        // GSAP Initialization
+        gsap.registerPlugin(ScrollTrigger);
 
-        // Tab Management
+        // Tab Switching Logic
         function switchTab(tabId) {
-            // Hide all
-            document.querySelectorAll('.tab-content').forEach(el => {
-                el.classList.add('hidden');
+            // Update Navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                const onclickVal = link.getAttribute('onclick');
+                if (onclickVal) {
+                    const isActive = onclickVal.includes(`'${tabId}'`);
+                    link.classList.toggle('active', isActive);
+                }
             });
-            // Reset buttons
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Show target
-            const target = document.getElementById('tab-' + tabId);
-            target.classList.remove('hidden');
-            
-            // Add active class to clicked button
-            const clickedBtn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(tabId));
-            if(clickedBtn) clickedBtn.classList.add('active');
 
-            // Animation
-            gsap.fromTo(target, 
-                { opacity: 0, x: 20 }, 
-                { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }
-            );
-            
+            // Transition Content
+            const currentTab = document.querySelector('.tab-content.active');
+            const nextTab = document.getElementById(tabId);
+
+            if (!nextTab || currentTab === nextTab) return;
+
+            gsap.to(currentTab, { 
+                opacity: 0, 
+                y: -10, 
+                duration: 0.3, 
+                onComplete: () => {
+                    currentTab.classList.remove('active');
+                    nextTab.classList.add('active');
+                    gsap.fromTo(nextTab, 
+                        { opacity: 0, y: 10 }, 
+                        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
+                    );
+                    lucide.createIcons();
+                }
+            });
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Checklist Logic
-        function toggleStep(checkbox) {
-            const item = checkbox.closest('.checklist-item');
-            if(checkbox.checked) {
-                item.classList.add('step-completed');
-                gsap.to(item, { scale: 0.98, opacity: 0.5, duration: 0.3 });
-            } else {
-                item.classList.remove('step-completed');
-                gsap.to(item, { scale: 1, opacity: 1, duration: 0.3 });
-            }
-            updateGlobalProgress();
-        }
+        // Live Feed Simulation
+        const feedEntries = [
+            { text: "n8n: Processing incoming webhook for Tenant_08...", color: "text-primary" },
+            { text: "VoxSentinel: Voice Agent call started - Latency: 450ms", color: "text-vox" },
+            { text: "OmniRank: Injecting JSON-LD into WordPress REST API...", color: "text-rank" },
+            { text: "MedFlow: Patient 042 rescheduled via WhatsApp.", color: "text-flow" },
+            { text: "System: Auto-purging PII for GDPR compliance...", color: "text-accent" },
+            { text: "Stripe: Webhook received - Subscription renewed.", color: "text-white" },
+            { text: "Zernio: Refreshing OAuth token for GMB profile...", color: "text-slate-400" }
+        ];
 
-        function updateGlobalProgress() {
-            const checks = document.querySelectorAll('input[type="checkbox"]');
-            const checked = document.querySelectorAll('input[type="checkbox"]:checked');
-            const perc = checks.length > 0 ? Math.round((checked.length / checks.length) * 100) : 0;
+        function addFeedEntry() {
+            const feed = document.getElementById('live-feed');
+            if(!feed) return;
+            const entry = feedEntries[Math.floor(Math.random() * feedEntries.length)];
+            const div = document.createElement('div');
+            const time = new Date().toLocaleTimeString('it-IT', { hour12: false });
+            div.className = `${entry.color} opacity-0`;
+            div.innerHTML = `[${time}] ${entry.text}`;
+            feed.appendChild(div);
             
-            document.getElementById('global-perc').innerText = perc + '%';
+            gsap.to(div, { opacity: 1, duration: 0.5 });
             
-            // Update SVG Circle
-            const circle = document.getElementById('progress-circle');
-            const circumference = 301.59;
-            const offset = circumference - (perc / 100 * circumference);
-            circle.style.strokeDashoffset = offset;
-
-            // Feedback color change
-            if(perc === 100) {
-                document.getElementById('global-perc').classList.replace('text-primary', 'text-accent');
-                circle.classList.replace('text-primary', 'text-accent');
-            } else {
-                document.getElementById('global-perc').classList.replace('text-accent', 'text-primary');
-                circle.classList.replace('text-accent', 'text-primary');
+            if (feed.children.length > 8) {
+                feed.removeChild(feed.children[0]);
             }
         }
 
-        // ROI Calculator Logic
-        function calculateROI() {
-            const clients = document.getElementById('client-range').value;
-            document.getElementById('client-count').innerText = clients;
-            
-            const mrr = clients * 99;
-            document.getElementById('calc-mrr').innerText = mrr.toLocaleString();
-            
-            const costs = 182;
-            const tax = Math.round(mrr * 0.05);
-            document.getElementById('calc-tax').innerText = '-' + tax.toLocaleString();
-            
-            const net = mrr - costs - tax;
-            document.getElementById('calc-net').innerText = (net > 0 ? '$ ' : '-$ ') + Math.abs(net).toLocaleString();
-            
-            if(net < 0) {
-                document.getElementById('calc-net').classList.replace('text-accent', 'text-danger');
-            } else {
-                document.getElementById('calc-net').classList.replace('text-danger', 'text-accent');
-            }
+        setInterval(addFeedEntry, 4000);
+
+        // ROI Calculator Logic: VoxSentinel
+        const voxInput = document.getElementById('vox-input');
+        const voxVal = document.getElementById('vox-val');
+        const voxSaved = document.getElementById('vox-saved');
+        const voxRevenue = document.getElementById('vox-revenue');
+
+        function updateVoxROI() {
+            if(!voxInput) return;
+            const val = voxInput.value;
+            voxVal.innerText = val;
+            const saved = Math.round(val * 0.20);
+            voxSaved.innerText = saved;
+            voxRevenue.innerText = `$ ${(saved * 250).toLocaleString()}`;
         }
 
-        // Initialize progress
-        updateGlobalProgress();
-        // Initialize Calculator
-        calculateROI();
+        if(voxInput) voxInput.addEventListener('input', updateVoxROI);
+
+        // Entrance Animations
+        window.onload = () => {
+            gsap.from(".tab-content.active > *", {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: "power4.out"
+            });
+            
+            updateVoxROI();
+        };
     </script>
 </body>
 </html>

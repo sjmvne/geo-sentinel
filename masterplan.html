@@ -88,6 +88,7 @@
                 <button onclick="showProduct('vox')" class="nav-link text-xs font-bold uppercase tracking-widest pb-1 transition-all">VoxSentinel</button>
                 <button onclick="showProduct('rank')" class="nav-link text-xs font-bold uppercase tracking-widest pb-1 transition-all">OmniRank AEO</button>
                 <button onclick="showProduct('flow')" class="nav-link text-xs font-bold uppercase tracking-widest pb-1 transition-all">MedFlow</button>
+                <button onclick="showProduct('dentist')" class="nav-link text-xs font-bold uppercase tracking-widest pb-1 transition-all">Dentists</button>
             </div>
 
             <div class="flex items-center gap-4">
@@ -388,6 +389,102 @@
                             <p class="text-xs text-slate-500 leading-relaxed">
                                 Un "Rescheduling" proattivo recupera mediamente $150 per singola operazione, azzerando il carico delle segreterie.
                             </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: DENTISTS -->
+            <section id="dentist" class="product-section space-y-12">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="max-w-2xl">
+                        <div class="inline-block px-3 py-1 bg-primary/20 text-primary text-[10px] font-black rounded-full mb-4 tracking-widest uppercase">High-Ticket Vertical</div>
+                        <h2 class="text-4xl lg:text-5xl font-display font-black text-white mb-6 leading-tight">Dental Verticals</h2>
+                        <p class="text-slate-400 text-lg leading-relaxed">
+                            L'odontoiatria è l'apice del Micro-SaaS Niche-Specific. Ticket elevati e inefficienze operative croniche rendono questo target estremamente profittevole.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Idea 1 -->
+                    <div class="glass-panel p-8 rounded-3xl border-t-2 border-primary space-y-4">
+                        <div class="flex justify-between items-start">
+                            <i data-lucide="stethoscope" class="text-primary w-8 h-8"></i>
+                            <span class="tech-tag">Vapi + n8n</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white uppercase tracking-tight">DentaTriage AI</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed italic border-l-2 border-primary/30 pl-3">
+                            "Gestione Emergenze Fuori Orario". 
+                        </p>
+                        <p class="text-[11px] text-slate-500">
+                            Un Agente Vocale IA qualifica il dolore (1-10) e filtra le emergenze reali, prenotando istantaneamente nel gestionale (AlfaDocs/XDENT) o avvisando il medico per urgenze critiche.
+                        </p>
+                    </div>
+
+                    <!-- Idea 2 -->
+                    <div class="glass-panel p-8 rounded-3xl border-t-2 border-accent space-y-4">
+                        <div class="flex justify-between items-start">
+                            <i data-lucide="refresh-cw" class="text-accent w-8 h-8"></i>
+                            <span class="tech-tag">WhatsApp + 360d</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white uppercase tracking-tight">RecallMachine</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed italic border-l-2 border-accent/30 pl-3">
+                            "Riattivazione Igiene e Prevenzione".
+                        </p>
+                        <p class="text-[11px] text-slate-500">
+                            Analisi automatica del database pazienti dormienti (6-12 mesi). Invio di template WhatsApp per saturare le agende degli igienisti. ROI calcolato su migliaia di euro "congelati".
+                        </p>
+                    </div>
+
+                    <!-- Idea 3 -->
+                    <div class="glass-panel p-8 rounded-3xl border-t-2 border-gold space-y-4">
+                        <div class="flex justify-between items-start">
+                            <i data-lucide="wallet" class="text-gold w-8 h-8"></i>
+                            <span class="tech-tag">Agentic Follow-up</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white uppercase tracking-tight">High-Ticket Closer</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed italic border-l-2 border-gold/30 pl-3">
+                            "Automazione Follow-up Preventivi".
+                        </p>
+                        <p class="text-[11px] text-slate-500">
+                            Recupero preventivi (Impianti/Ortodonzia) tramite Drip Campaign educative. L'IA risponde ai dubbi clinici e finanziari, portando il tasso di accettazione oltre il 60%.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-10 rounded-3xl bg-dark/40 border-white/5 space-y-8">
+                    <h3 class="text-2xl font-display font-bold text-white">Master Pipeline Architecture (Multi-Tenant)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                        <div class="space-y-4">
+                            <p class="text-slate-400 text-sm leading-relaxed">
+                                Per scalare a 100+ cliniche, non cloniamo workflow. Usiamo una **Master Pipeline** logica che interroga il DB centrale all'inizio di ogni esecuzione.
+                            </p>
+                            <ul class="space-y-4">
+                                <li class="flex gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">1</div>
+                                    <div class="text-xs text-slate-400">
+                                        <span class="text-white font-bold block">Auth Injection</span>
+                                        Interrogazione PostgreSQL per iniettare prompt, OAuth tokens e limiti API specifici per Tenant ID.
+                                    </div>
+                                </li>
+                                <li class="flex gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">2</div>
+                                    <div class="text-xs text-slate-400">
+                                        <span class="text-white font-bold block">Error Handling & Backoff</span>
+                                        Logiche di "Retry on Fail" con backoff esponenziale per proteggere i limiti di rate-limiting di Meta e OpenAI.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-primary/5 p-8 rounded-2xl border border-primary/20 space-y-6">
+                            <h4 class="text-xs font-black text-primary uppercase tracking-widest">Compliance Ghost Mode</h4>
+                            <p class="text-[11px] text-slate-400 leading-relaxed">
+                                Trattandosi di dati sensibili (Art. 9 GDPR), l'infrastruttura implementa il **Purge Automatico**: dopo aver sincronizzato i dati col gestionale sicuro della clinica, ogni traccia di PII e health data viene eliminata (SQL DELETE) dai server SaaS.
+                            </p>
+                            <div class="flex items-center gap-2 text-accent text-[10px] font-bold uppercase tracking-widest">
+                                <i data-lucide="shield-check" class="w-4 h-4"></i> Legge 132/2025 Compliant
+                            </div>
                         </div>
                     </div>
                 </div>

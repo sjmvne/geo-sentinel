@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masterplan 2026 | Micro-SaaS Architect</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- GSAP Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Google Fonts: Outfit for titles, Inter for body -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#6366F1',
+                        accent: '#10B981',
+                        danger: '#EF4444',
+                        dark: '#020617',
+                        card: 'rgba(15, 23, 42, 0.6)',
+                        gold: '#F59E0B',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            background-color: #020617; 
+            background-image: 
+                radial-gradient(at 0% 100%, rgba(245, 158, 11, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%);
+            color: #F8FAFC;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .pillar-card:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-5px);
+        }
+        .tech-tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .product-section { display: none; }
+        .product-section.active { display: block; }
+        .nav-link.active { color: #818CF8; border-bottom: 2px solid #6366F1; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col overflow-x-hidden">
+
+    <!-- Global Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b border-white/5">
+        <div class="max-w-screen-2xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="bg-gold/20 p-2 rounded-xl border border-gold/30 hover:bg-gold/30 transition-all">
+                    <i data-lucide="layout-dashboard" class="text-gold w-5 h-5"></i>
+                </a>
+                <div class="flex flex-col">
+                    <span class="font-display font-bold text-lg tracking-tight">MASTERPLAN 2026</span>
+                    <span class="text-[10px] text-slate-500 font-medium tracking-[0.2em] uppercase underline decoration-gold">SaaS Architecture</span>
+                </div>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-8">
+                <button onclick="showProduct('pillars')" class="nav-link active text-xs font-bold uppercase tracking-widest pb-1 transition-all">Pillars</button>
+                <button onclick="showProduct('vox')" class="nav-link text-xs font-bold uppercase tracking-widest pb-1 transition-all">VoxSentinel</button>
+                <button onclick="showProduct('rank')" class="nav-link text-xs font-bold uppercase tracking-widest pb-1 transition-all">OmniRank AEO</button>
+                <button onclick="showProduct('flow')" class="nav-link text-xs font-bold uppercase tracking-widest pb-1 transition-all">MedFlow</button>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="bg-emerald-500/10 text-emerald-500 text-[10px] font-black px-3 py-1 rounded-full border border-emerald-500/20 uppercase tracking-tighter">
+                    80%+ Net Margins
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-28 pb-20 px-6">
+        <div class="max-w-screen-xl mx-auto">
+            
+            <!-- INTRO -->
+            <header class="mb-16 text-center animate-in">
+                <h1 class="text-4xl lg:text-6xl font-display font-black mb-6 leading-tight">
+                    Architetture ad Alta Passività e <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold to-primary">Margini Estremi</span>
+                </h1>
+                <p class="text-slate-400 text-lg max-w-3xl mx-auto leading-relaxed">
+                    Il cliente B2B locale non acquista tecnologia. Acquista un risultato visibile e finanziariamente misurabile che non richieda alcun intervento manuale. L'architetto SaaS costruisce sistemi che non si rompono.
+                </p>
+            </header>
+
+            <!-- SECTION: PILLARS -->
+            <section id="pillars" class="product-section active space-y-12 animate-in">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Pillar 1 -->
+                    <div class="pillar-card glass-panel p-8 rounded-3xl transition-all border-t-2 border-primary">
+                        <div class="mb-6"><i data-lucide="target" class="text-primary w-10 h-10"></i></div>
+                        <h3 class="text-lg font-bold text-white mb-3 uppercase tracking-tight">Niche-Specific</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">Il software generalista è morto. Risolvi un singolo problema emorragico per un target "pigro". La specificità riduce il CAC e giustifica il prezzo premium.</p>
+                    </div>
+                    <!-- Pillar 2 -->
+                    <div class="pillar-card glass-panel p-8 rounded-3xl transition-all border-t-2 border-accent">
+                        <div class="mb-6"><i data-lucide="trending-up" class="text-accent w-10 h-10"></i></div>
+                        <h3 class="text-lg font-bold text-white mb-3 uppercase tracking-tight">High Margin</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">Infrastruttura sotto i 100$/mese per tutti i tenant. Prezzo di vendita tra 49$ e 199$. Margine netto > 80% protetto da automazione estrema.</p>
+                    </div>
+                    <!-- Pillar 3 -->
+                    <div class="pillar-card glass-panel p-8 rounded-3xl transition-all border-t-2 border-gold">
+                        <div class="mb-6"><i data-lucide="zap" class="text-gold w-10 h-10"></i></div>
+                        <h3 class="text-lg font-bold text-white mb-3 uppercase tracking-tight">Set & Forget</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">Zero tempo umano. Setup in 15 minuti via OAuth. Pagamenti delegati a Stripe. L'architetto non fa assistenza, costruisce sistemi solidi.</p>
+                    </div>
+                    <!-- Pillar 4 -->
+                    <div class="pillar-card glass-panel p-8 rounded-3xl transition-all border-t-2 border-danger">
+                        <div class="mb-6"><i data-lucide="bar-chart-3" class="text-danger w-10 h-10"></i></div>
+                        <h3 class="text-lg font-bold text-white mb-3 uppercase tracking-tight">Ritenzione Visiva</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">L'automazione perfetta è invisibile. Somministra "dopamina aziendale" tramite report e dashboard proattive per evitare il churn.</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-10 rounded-3xl bg-primary/5 border-primary/20">
+                    <h3 class="text-2xl font-display font-bold text-white mb-6">La Dottrina dell'Arbitraggio Tecnologico</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                        <div class="space-y-4">
+                            <p class="text-slate-400 text-sm leading-relaxed">
+                                Le attività locali bruciano margini in processi manuali mentre i costi di inferenza IA crollano. In questo divario risiede l'opportunità. 
+                            </p>
+                            <ul class="space-y-3">
+                                <li class="flex items-center gap-3 text-xs text-slate-300">
+                                    <i data-lucide="check-circle-2" class="text-accent w-4 h-4"></i> Orchestrazione n8n Self-Hosted (PikaPods/InstaPods)
+                                </li>
+                                <li class="flex items-center gap-3 text-xs text-slate-300">
+                                    <i data-lucide="check-circle-2" class="text-accent w-4 h-4"></i> Database PostgreSQL per persistenza multi-tenant
+                                </li>
+                                <li class="flex items-center gap-3 text-xs text-slate-300">
+                                    <i data-lucide="check-circle-2" class="text-accent w-4 h-4"></i> API-First: Twilio, Vapi, Apify, 360dialog
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-dark/50 p-6 rounded-2xl border border-white/5 space-y-4">
+                            <h4 class="text-xs font-black text-slate-500 uppercase tracking-widest">OpEx Benchmark 2026</h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-400">n8n VPS / DB</span>
+                                    <span class="text-white">$20 - $30</span>
+                                </div>
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-400">LLM Inference (Avg.)</span>
+                                    <span class="text-white">$0.20 / user</span>
+                                </div>
+                                <div class="flex justify-between text-xs border-t border-white/5 pt-2 mt-2">
+                                    <span class="text-gold font-bold">Total Platform Cost</span>
+                                    <span class="text-gold font-bold">$100 - $150</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: VOXSENTINEL -->
+            <section id="vox" class="product-section space-y-12">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="max-w-2xl">
+                        <div class="inline-block px-3 py-1 bg-primary/20 text-primary text-[10px] font-black rounded-full mb-4 tracking-widest uppercase">Product 01</div>
+                        <h2 class="text-4xl lg:text-5xl font-display font-black text-white mb-6 leading-tight">VoxSentinel</h2>
+                        <p class="text-slate-400 text-lg leading-relaxed">
+                            "Il Centralinista Invisibile". Recupero automatico delle chiamate perse tramite SMS e Agenti Vocali IA a bassa latenza. 
+                        </p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-3xl border-l-4 border-l-primary flex flex-col items-center justify-center min-w-[200px]">
+                        <span class="text-[10px] text-slate-500 uppercase font-black mb-1">Target Ticket</span>
+                        <span class="text-3xl font-display font-black text-white">$149 - $299</span>
+                        <span class="text-[10px] text-accent uppercase font-bold mt-1">94% Margin</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div class="glass-panel p-8 rounded-3xl space-y-4">
+                            <h3 class="font-bold text-white flex items-center gap-2 italic">
+                                <i data-lucide="phone-missed" class="text-danger w-5 h-5"></i> Il Problema Emorragico
+                            </h3>
+                            <p class="text-sm text-slate-400 leading-relaxed">
+                                Un idraulico sul tetto non risponde. Una chiamata persa = un lavoro perso (avg. $250 - $5000). Il 78% dei clienti acquista dal fornitore che risponde per primo.
+                            </p>
+                        </div>
+                        <div class="glass-panel p-8 rounded-3xl space-y-4">
+                            <h3 class="font-bold text-white flex items-center gap-2">
+                                <i data-lucide="cpu" class="text-primary w-5 h-5"></i> Architettura Motore
+                            </h3>
+                            <ul class="space-y-3 text-xs text-slate-400">
+                                <li class="flex items-center gap-2"><i data-lucide="arrow-right" class="w-3 h-3 text-primary"></i> Twilio per rilevamento "Call Missed"</li>
+                                <li class="flex items-center gap-2"><i data-lucide="arrow-right" class="w-3 h-3 text-primary"></i> Missed Call Text-Back automatico (< 60s)</li>
+                                <li class="flex items-center gap-2"><i data-lucide="arrow-right" class="w-3 h-3 text-primary"></i> Vapi / Retell per Escalation Vocale IA</li>
+                                <li class="flex items-center gap-2"><i data-lucide="arrow-right" class="w-3 h-3 text-primary"></i> n8n per sincronizzazione Google Calendar</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- ROI BOX -->
+                    <div class="glass-panel p-8 rounded-3xl bg-indigo-600/5 border-primary/20 space-y-6">
+                        <h3 class="text-xl font-bold text-white">Revenue Recovery Simulator</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-[10px] text-slate-500 uppercase font-bold block mb-2">Chiamate Perse / Mese</label>
+                                <input type="range" id="vox-calls" min="10" max="300" value="168" oninput="updateVoxROI()" class="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 pt-4">
+                                <div class="p-4 rounded-2xl bg-dark/50">
+                                    <span class="text-[10px] text-slate-500 uppercase block mb-1">Recupero (20%)</span>
+                                    <span id="vox-saved" class="text-xl font-bold text-white">33</span>
+                                </div>
+                                <div class="p-4 rounded-2xl bg-dark/50">
+                                    <span class="text-[10px] text-slate-500 uppercase block mb-1">Valore Medio</span>
+                                    <span class="text-xl font-bold text-white">$250</span>
+                                </div>
+                            </div>
+                            <div class="pt-6 border-t border-white/5">
+                                <div class="flex justify-between items-end">
+                                    <span class="text-sm text-slate-400">Mensile Recuperato:</span>
+                                    <span id="vox-total" class="text-3xl font-display font-black text-accent">$ 8.250</span>
+                                </div>
+                                <p class="text-[10px] text-slate-500 mt-2">Rispetto a un canone di $299, il ROI è 27x.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: OMNIRANK AEO -->
+            <section id="rank" class="product-section space-y-12">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="max-w-2xl">
+                        <div class="inline-block px-3 py-1 bg-accent/20 text-accent text-[10px] font-black rounded-full mb-4 tracking-widest uppercase">Product 02</div>
+                        <h2 class="text-4xl lg:text-5xl font-display font-black text-white mb-6 leading-tight">OmniRank AEO</h2>
+                        <p class="text-slate-400 text-lg leading-relaxed">
+                            "Dominanza Cosciente nell'IA". Answer Engine Optimization per posizionare il brand all'interno delle risposte di ChatGPT, Perplexity e Google AI Overviews.
+                        </p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-3xl border-l-4 border-l-accent flex flex-col items-center justify-center min-w-[200px]">
+                        <span class="text-[10px] text-slate-500 uppercase font-black mb-1">Target Ticket</span>
+                        <span class="text-3xl font-display font-black text-white">$199 - $499</span>
+                        <span class="text-[10px] text-accent uppercase font-bold mt-1">91% Margin</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1 glass-panel p-8 rounded-3xl space-y-6">
+                        <h3 class="font-bold text-white">Semantic Gap Engine</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">I motori generativi ignorano i link blu e citano solo entità autorevoli. Se l'IA non ti cita, sei invisibile nel 2026.</p>
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-xl bg-accent/5 border border-accent/20">
+                                <span class="text-[10px] text-accent uppercase font-black">AEO Injector</span>
+                                <p class="text-[11px] text-slate-300 mt-1">Generazione automatica di JSON-LD Schema Markup iniettato via WordPress REST API.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-primary/5 border border-primary/20">
+                                <span class="text-[10px] text-primary uppercase font-black">Agentic Audit</span>
+                                <p class="text-[11px] text-slate-300 mt-1">Analisi competitor vincenti e creazione di content brief per colmare il divario semantico.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 glass-panel p-8 rounded-3xl relative overflow-hidden">
+                        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 24px 24px;"></div>
+                        <h3 class="text-xl font-bold text-white mb-6">Pipeline n8n Master (AEO Lifecycle)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs">
+                            <div class="space-y-6">
+                                <div class="flex gap-4">
+                                    <div class="w-8 h-8 rounded-lg bg-dark border border-white/10 flex items-center justify-center text-primary font-bold italic">1</div>
+                                    <div class="flex-grow">
+                                        <h4 class="text-white font-bold mb-1">Trigger Weekly Audit</h4>
+                                        <p class="text-slate-500 leading-relaxed">Scraping AI Overviews via Apify per query transazionali alto-ticket.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="w-8 h-8 rounded-lg bg-dark border border-white/10 flex items-center justify-center text-primary font-bold italic">2</div>
+                                    <div class="flex-grow">
+                                        <h4 class="text-white font-bold mb-1">Competitor Scraping</h4>
+                                        <p class="text-slate-500 leading-relaxed">Estrazione contenuti dei siti citati dai motori IA (Knowledge Graph RAG).</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-6">
+                                <div class="flex gap-4">
+                                    <div class="w-8 h-8 rounded-lg bg-dark border border-white/10 flex items-center justify-center text-primary font-bold italic">3</div>
+                                    <div class="flex-grow">
+                                        <h4 class="text-white font-bold mb-1">Semantic Inference</h4>
+                                        <p class="text-slate-500 leading-relaxed">Gemini 1.5 Pro identifica le entità mancanti (Semantic Gaps).</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="w-8 h-8 rounded-lg bg-dark border border-white/10 flex items-center justify-center text-primary font-bold italic">4</div>
+                                    <div class="flex-grow">
+                                        <h4 class="text-white font-bold mb-1">Automatic Injection</h4>
+                                        <p class="text-slate-500 leading-relaxed">Push via API dello Schema Markup e dei contenuti in stato Draft.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: MEDFLOW -->
+            <section id="flow" class="product-section space-y-12">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="max-w-2xl">
+                        <div class="inline-block px-3 py-1 bg-gold/20 text-gold text-[10px] font-black rounded-full mb-4 tracking-widest uppercase">Product 03</div>
+                        <h2 class="text-4xl lg:text-5xl font-display font-black text-white mb-6 leading-tight">MedFlow</h2>
+                        <p class="text-slate-400 text-lg leading-relaxed">
+                            "Revenue Recovery per Cliniche". Ecosistema WhatsApp Business API per abbattimento No-Show al 4% e riempimento automatico agende.
+                        </p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-3xl border-l-4 border-l-gold flex flex-col items-center justify-center min-w-[200px]">
+                        <span class="text-[10px] text-slate-500 uppercase font-black mb-1">Target Ticket</span>
+                        <span class="text-3xl font-display font-black text-white">$199 - $299</span>
+                        <span class="text-[10px] text-accent uppercase font-bold mt-1">~80% Margin</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Tech Stack Box -->
+                    <div class="glass-panel p-8 rounded-3xl space-y-6">
+                        <h3 class="text-xl font-bold text-white flex items-center gap-3">
+                            <i data-lucide="message-square" class="text-gold w-6 h-6"></i> WhatsApp BSP Strategy
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Bypassiamo Twilio e markup occulti. Integrazione diretta con <strong>360dialog</strong> per hosting API puro a quota fissa ($49/mo) e traffico pass-through Meta.
+                        </p>
+                        <div class="space-y-4 pt-4">
+                            <div class="flex items-center justify-between border-b border-white/5 pb-2 text-xs">
+                                <span class="text-slate-500">Whisper API</span>
+                                <span class="text-white">Trascrizione Vocale automatica</span>
+                            </div>
+                            <div class="flex items-center justify-between border-b border-white/5 pb-2 text-xs">
+                                <span class="text-slate-500">PostgreSQL</span>
+                                <span class="text-white">Persistenza Memoria Multi-Agente</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs">
+                                <span class="text-slate-500">Embedded Signup</span>
+                                <span class="text-white">Onboarding WABA Zero-Touch</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flow Visualizer -->
+                    <div class="glass-panel p-8 rounded-3xl bg-dark/30 border border-gold/20 flex flex-col justify-center">
+                        <div class="space-y-4">
+                            <div class="p-3 rounded-xl bg-white/5 border border-white/10 text-[11px] flex justify-between items-center">
+                                <span class="text-slate-400 italic">Paziente: "Non posso venire domani alle 10"</span>
+                                <span class="tech-tag">Webhook In</span>
+                            </div>
+                            <div class="flex justify-center"><i data-lucide="arrow-down" class="text-gold w-4 h-4"></i></div>
+                            <div class="p-3 rounded-xl bg-gold/10 border border-gold/20 text-[11px] flex justify-between items-center">
+                                <span class="text-white font-bold">n8n Agent: Cal.com API disdetta slot</span>
+                                <span class="tech-tag bg-gold/20">Action</span>
+                            </div>
+                            <div class="flex justify-center"><i data-lucide="arrow-down" class="text-gold w-4 h-4"></i></div>
+                            <div class="p-3 rounded-xl bg-white/5 border border-white/10 text-[11px] flex justify-between items-center">
+                                <span class="text-slate-400 italic">Bot: "Slot liberato. Desidera spostare a venerdì alle 15?"</span>
+                                <span class="tech-tag">Proactive Recovery</span>
+                            </div>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-white/5 text-center">
+                            <p class="text-xs text-slate-500 leading-relaxed">
+                                Un "Rescheduling" proattivo recupera mediamente $150 per singola operazione, azzerando il carico delle segreterie.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: RED PILL (Legal & Tech) -->
+            <section class="mt-24 space-y-8 animate-in">
+                <div class="p-10 rounded-3xl bg-danger/5 border border-danger/20">
+                    <h2 class="text-3xl font-display font-black text-danger mb-4 flex items-center gap-3 italic">
+                        <i data-lucide="shield-alert" class="w-8 h-8"></i> THE RED PILL: Compliance & Scale
+                    </h2>
+                    <p class="text-slate-400 text-lg">I "Muri Legali" che distruggono il business se non gestiti dal Giorno 1.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-panel p-8 rounded-3xl space-y-4">
+                        <h4 class="text-white font-bold flex items-center gap-2"><i data-lucide="lock" class="text-danger w-5 h-5"></i> GDPR & Legge 132/2025</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Gestione automatica delle <strong>DSAR</strong>. n8n rileva l'intento "Cancella i miei dati" e innesca una query SQL <code>DELETE</code> irreversibile nel database. Diritto all'oblio senza intervento umano.
+                        </p>
+                    </div>
+                    <div class="glass-panel p-8 rounded-3xl space-y-4">
+                        <h4 class="text-white font-bold flex items-center gap-2"><i data-lucide="layers" class="text-danger w-5 h-5"></i> Multi-Tenant Master Pipeline</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Non creare workflow separati. Usa un'unica pipeline che interroga il DB centrale all'inizio dell'esecuzione per iniettare System Prompt e credenziali OAuth specifiche per ogni ID cliente.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="glass-panel border-t border-white/5 py-12 mt-auto">
+        <div class="max-w-screen-2xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center gap-4">
+                <div class="bg-gold/20 p-2 rounded-lg">
+                    <i data-lucide="shield-check" class="text-gold w-4 h-4"></i>
+                </div>
+                <div class="text-slate-500 text-[10px] font-black uppercase tracking-[0.3em]">
+                    Micro-SaaS Architect Framework &copy; 2026
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <span class="text-[10px] text-slate-600 uppercase font-black tracking-widest">Full Throttle Mode</span>
+                <div class="w-2 h-2 rounded-full bg-gold animate-pulse"></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Logic Scripts -->
+    <script>
+        // Initialize Lucide
+        lucide.createIcons();
+
+        // GSAP Animations on Load
+        window.addEventListener('load', () => {
+            gsap.from(".animate-in", { 
+                opacity: 0, 
+                y: 30, 
+                duration: 1, 
+                stagger: 0.15, 
+                ease: "power3.out" 
+            });
+        });
+
+        // Tab Management
+        function showProduct(prodId) {
+            // Hide all
+            document.querySelectorAll('.product-section').forEach(el => {
+                el.classList.remove('active');
+                el.classList.add('hidden');
+            });
+            // Reset buttons
+            document.querySelectorAll('.nav-link').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show target
+            const target = document.getElementById(prodId);
+            target.classList.remove('hidden');
+            target.classList.add('active');
+            
+            // Add active class to clicked button
+            const clickedBtn = Array.from(document.querySelectorAll('.nav-link')).find(b => b.getAttribute('onclick').includes(prodId));
+            if(clickedBtn) clickedBtn.classList.add('active');
+
+            // Animation
+            gsap.fromTo(target, 
+                { opacity: 0, y: 20 }, 
+                { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+            );
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // VoxSentinel ROI Calculator
+        function updateVoxROI() {
+            const calls = document.getElementById('vox-calls').value;
+            const saved = Math.round(calls * 0.20);
+            const total = saved * 250;
+            
+            document.getElementById('vox-saved').innerText = saved;
+            document.getElementById('vox-total').innerText = '$ ' + total.toLocaleString();
+        }
+
+        // Initialize Calculator
+        updateVoxROI();
+    </script>
+</body>
+</html>
